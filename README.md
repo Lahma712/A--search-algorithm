@@ -1,1 +1,1 @@
-# A--search-algorithm
+# A-star-algorithm
