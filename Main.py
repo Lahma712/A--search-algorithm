@@ -24,8 +24,8 @@ kivy.require("2.0.0")
 class Drw(Widget):
 	Width = int(input("\n\nWindow width (in pixels): "))
 	Height = int(input("\nWindow height (in pixels): "))
-	GCostMult = 100
-	HCostMult = 1
+	GCostMult = 1
+	HCostMult = 100
 	time.sleep(1)
 	Window.size = (Width, Height)
 	GWidth = int(Width) 
@@ -46,6 +46,7 @@ class Drw(Widget):
 		self.CellCount = 50
 		with self.canvas:
 			self.check = False
+			self.y = 0
 			
 			self.updateCanvas(self, 1)
 			self.bg = Bg(source= r"C:\Users\{}\Desktop\Grid.png".format(host), pos=(0, self.Height * 0.1), size = (self.GWidth, self.GHeight))
@@ -103,16 +104,20 @@ class Drw(Widget):
 
 	def StartClock(self, instance):
 		
-		if self.check != True:
-			self.x = 0
-			self.updateCanvas(self, 2)
-			self.Startevent = Clock.schedule_interval(self.StartFrame, 0.01)
-			self.check = True
-			self.Startevent()
-			self.check == False
+		#if self.check != True:
+		self.x = 0
+		if self.y != 0:
+			self.Startevent.cancel()
+			self.y = 0
+			self.Parent = self.Start
+		self.updateCanvas(self, 2)
+		self.Startevent = Clock.schedule_interval(self.StartFrame, 0.01)
+			#self.check = True
+		self.Startevent()
+			#self.check == False
 
 	def StartFrame(self, instance): 
-
+		self.y = 1
 		self.Frame = drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.Cells, self.Obstacle, self.Start, self.End, self.Parent, self.Open, self.Explored, self.GCostMult, self.HCostMult) #creates cells
 		self.Parent = list(self.Frame[0])
 		
@@ -136,6 +141,13 @@ class Drw(Widget):
 		
 
 	def Clear(self, instance):
+		try:
+			self.Startevent.cancel()
+			self.y = 0
+			self.Parent = self.Start
+		except:
+			pass
+
 		if self.x == 0:
 			self.updateCanvas(self, 2)
 			
