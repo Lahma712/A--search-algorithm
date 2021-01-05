@@ -26,6 +26,12 @@ def drawCell(X,Y, color, source): #function that draws a single cell when you cl
 			draw.point([x, y], color)
 	Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
 
+
+def drawMultCell(X,Y,color,draw):
+	for y in Y:
+		for x in X:
+			draw.point([x, y], color)
+
 def distance(x, y):
 	diag = 0
 	a=x[:]
@@ -125,9 +131,9 @@ def drawFrame(source, Cells, Obstacle, Start, End, Parent, Open, Explored, GCost
 	del Open[nextCell[0]]
 	return nextCell
 
-def drawPath(source, Cells, Explored, End):
+def drawPath(draw, Cells, Explored, End):
 	if tuple(End) in Explored:
-		drawCell(Cells[0][Explored[tuple(End)][3][0]], Cells[1][Explored[tuple(End)][3][1]], (0,255,0), source)
+		drawMultCell(Cells[0][Explored[tuple(End)][3][0]], Cells[1][Explored[tuple(End)][3][1]], (0,255,0), draw)
 		
 		return list(Explored[tuple(End)][3])
 

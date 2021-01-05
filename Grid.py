@@ -3,9 +3,8 @@ import random
 import getpass
 host = getpass.getuser()
 
-def Grid(hCellCount, Width, Height):
-    Im = Image.new("RGB", (Width, Height), (200,200,200))
-    draw = ImageDraw.Draw(Im)
+def Grid(hCellCount, Width, Height, Im, draw):
+    
     
     def contin(a, b, c, ExcessPixels, CellWidth, Axis, CellCount, C, counter, intv): #fuction that continues the algorithm with parameters given from the init function
         C += CellWidth+a #second grid pixel after 0 is placed a little sooner
@@ -68,5 +67,5 @@ def Grid(hCellCount, Width, Height):
     Draw(range(Width), HGrid, gcolor)
     Draw(VGrid, range(Height), gcolor)
    
-    Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
+   
     return HGrid, VGrid, vCellCount

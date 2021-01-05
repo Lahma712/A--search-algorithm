@@ -1,7 +1,7 @@
 import kivy
 from kivy.app import App
 from kivy.uix.widget import Widget
-from kivy.uix.image import Image
+from kivy.uix.image import Image as Bg
 from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.core.window import Window
@@ -9,12 +9,13 @@ from kivy.uix.textinput import TextInput
 from kivy.clock import Clock
 import time
 from Grid import Grid
-from Algorithm import Cells, drawCell, drawFrame, drawPath
+from Algorithm import Cells, drawCell, drawFrame, drawPath, drawMultCell
 import os
 import PIL
 import getpass
 import math
 import random
+from PIL import Image, ImageDraw
 host = getpass.getuser()
 kivy.require("2.0.0")
 
@@ -23,39 +24,39 @@ kivy.require("2.0.0")
 class Drw(Widget):
 	Width = int(input("\n\nWindow width (in pixels): "))
 	Height = int(input("\nWindow height (in pixels): "))
-	GCostMult = int(input("\nG Cost Multiplier; "))
-	HCostMult = int(input("\nH Cost Multiplier: "))
+	GCostMult = 1
+	HCostMult = 100
 	time.sleep(1)
 	Window.size = (Width, Height)
 	GWidth = int(Width) 
 	GHeight = int(Height * 0.9) #grid height is a little bit shorter than the full window size because of the buttons 
-	Obstacle = [] #holds current live cells of the frame in form of columns/rows. 2D list e.g [[0,0], [4,5], .... , [column, row]]
+	Obstacle = [] #holds obstacel cells of the frame in form of columns/rows. 2D list e.g [[0,0], [4,5], .... , [column, row]]
+	Explored = {}
+	Open = {}
 	Start = [5,5]
 	End = [10,10]
-	Parent = Start
-	StartCheck = True
-	source = r"C:\Users\{}\Desktop\Grid.png".format(host)
-	EndCheck = True
+	Parent = Start #first cell is equal to start
+	StartCheck = True #checks if there is a start cell
+	EndCheck = True #checks if there is an end cell
+	Im = Image.new("RGB", (GWidth, GHeight), (200,200,200))
+	Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
+
 	def __init__(self,**kwargs):
 		super(Drw, self).__init__(**kwargs)
 		self.CellCount = 50
 		with self.canvas:
 			self.check = False
-			self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight) #2D list of grid pixel coordinates eg [[0, 50, 100], [0, 100, 200]]. 1 List for x coordinates and 1 for y coordinates
-			self.Cells = Cells(self.Grids[0], self.Grids[1]) #3D list of all the cell coordinates eg [ [[0,1,2,3], [5, 6, 7]....], [[0,1,2,3,4], [6,7,8,9]....] . 1st list holds x coordinate lists and 2nd list y coordinate lists
-			drawCell(self.Cells[0][self.Start[0]], self.Cells[1][self.Start[1]], (255,0,0), r"C:\Users\{}\Desktop\Grid.png".format(host))
-			drawCell(self.Cells[0][self.End[0]], self.Cells[1][self.End[1]], (0,255,0) , r"C:\Users\{}\Desktop\Grid.png".format(host))
-
-
-			self.bg = Image(source= r"C:\Users\{}\Desktop\Grid.png".format(host), pos=(0, self.Height * 0.1), size = (self.GWidth, self.GHeight))
+			
+			self.updateCanvas(self, 1)
+			self.bg = Bg(source= r"C:\Users\{}\Desktop\Grid.png".format(host), pos=(0, self.Height * 0.1), size = (self.GWidth, self.GHeight))
             
 			self.add = Button(text = "zoom out", font_size =self.Height*0.05, size= (self.Width * 0.25, self.Height*0.10), pos = (0, 0))
 			self.sub = Button(text="zoom in", font_size=self.Height*0.05, size= (self.Width * 0.25, self.Height*0.10), pos=(self.Width - 0.75*self.Width, 0))
             
 			self.add.bind(on_press= self.AddClock)
-			self.add.bind(on_release = self.AddClockCancel)
+			self.add.bind(on_release = self.ClockCancel)
 			self.sub.bind(on_press = self.SubClock)
-			self.sub.bind(on_release = self.SubClockCancel)
+			self.sub.bind(on_release = self.ClockCancel)
 			self.add_widget(self.sub)
 			self.add_widget(self.add)
 
@@ -74,52 +75,37 @@ class Drw(Widget):
 	def Add(self, instance):
 
 		self.CellCount += 1
-		self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight) #new grid dataset is made when zoomed out
-		self.Cells = Cells(self.Grids[0], self.Grids[1]) #new cell dataset is made when zoomed out 
-		drawCell(self.Cells[0][self.Start[0]],self.Cells[1][self.Start[1]], (255,0,0), r"C:\Users\{}\Desktop\Grid.png".format(host))
-		drawCell(self.Cells[0][self.End[0]],self.Cells[1][self.End[1]], (0,255,0) , r"C:\Users\{}\Desktop\Grid.png".format(host))
-		with self.canvas:
-			self.bg.reload()
+		self.updateCanvas(self,1)
+		
 
 	def Sub(self, instance):
 		self.CellCount -= 1
-		self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight)#new grid dataset is made when zoomed in
-		self.Cells = Cells(self.Grids[0], self.Grids[1])#new cell dataset is made when zoomed in
-		drawCell(self.Cells[0][self.Start[0]],self.Cells[1][self.Start[1]], (255,0,0), r"C:\Users\{}\Desktop\Grid.png".format(host))
-		drawCell(self.Cells[0][self.End[0]],self.Cells[1][self.End[1]], (0,255,0) , r"C:\Users\{}\Desktop\Grid.png".format(host))
-		with self.canvas:
-			self.bg.reload()
+		self.updateCanvas(self,1)
+		
 
 	def AddClock(self, instance):
 		self.event = Clock.schedule_interval(self.Add, 0.01) #starts clock to continually zoom out
 		self.event()
 
-	def AddClockCancel(self, instance):
-		self.event.cancel() #cancels clock when you release the button
-    
+	
 	def SubClock(self, instance):
 		self.event = Clock.schedule_interval(self.Sub, 0.01)#starts clock to continually zoom in
 		self.event()
 
 	
-	def SubClockCancel(self, instance):
+	def ClockCancel(self, instance):
 		self.event.cancel()#cancels clock when you release the button
 
 
 	def StartClock(self, instance):
-
-		if self.check == True:
-			self.Startevent.cancel()
-			self.check = False
-			return
-        
-		else:
-			
-			self.Open = {}
-			self.Explored = {}
+		
+		if self.check != True:
+			self.x = 0
+			self.updateCanvas(self, 2)
 			self.Startevent = Clock.schedule_interval(self.StartFrame, 0.01)
 			self.check = True
 			self.Startevent()
+			self.check == False
 
 	def StartFrame(self, instance): 
 
@@ -130,30 +116,68 @@ class Drw(Widget):
 			self.bg.reload()
 
 		if self.Parent == self.End:
-			drawCell(self.Cells[0][self.End[0]],self.Cells[1][self.End[1]], (0,255,0), r"C:\Users\{}\Desktop\Grid.png".format(host))
+			Im = Image.open(r"C:\Users\{}\Desktop\Grid.png".format(host))
+			draw = ImageDraw.Draw(Im)
+			
 			
 			while self.Parent != self.Start:
-				self.Parent = drawPath(r"C:\Users\{}\Desktop\Grid.png".format(host), self.Cells, self.Explored, self.Parent)
+				self.Parent = drawPath(draw, self.Cells, self.Explored, self.Parent)
 				self.check = False
+			drawMultCell(self.Cells[0][self.End[0]],self.Cells[1][self.End[1]], (0,255,0), draw)
+			Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
 			with self.canvas:
 				self.bg.reload()
 			
 			self.Startevent.cancel()
-		return
+		
 
 	def Clear(self, instance):
-		self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight) #2D list of grid pixel coordinates eg [[0, 50, 100], [0, 100, 200]]. 1 List for x coordinates and 1 for y coordinates
-		self.Cells = Cells(self.Grids[0], self.Grids[1]) #3D list of all the cell coordinates eg [ [[0,1,2,3], [5, 6, 7]....], [[0,1,2,3,4], [6,7,8,9]....] . 1st list holds x coordinate lists and 2nd list y coordinate lists
-		drawCell(self.Cells[0][self.Start[0]], self.Cells[1][self.Start[1]], (255,0,0), r"C:\Users\{}\Desktop\Grid.png".format(host))
-		drawCell(self.Cells[0][self.End[0]], self.Cells[1][self.End[1]], (0,255,0) , r"C:\Users\{}\Desktop\Grid.png".format(host))
-		self.Obstacle = []
-		self.Open = {}
-		self.Explored = {}
+		if self.x == 0:
+			self.updateCanvas(self, 2)
+			
+			self.x +=1
+		elif self.x == 1:
+			self.updateCanvas(self,3)
+			
 		self.Parent = self.Start
-
-		with self.canvas:
-			self.bg.reload()
 		return
+
+
+	def updateCanvas(self, instance, X):
+		Im = Image.open(r"C:\Users\{}\Desktop\Grid.png".format(host))
+		draw = ImageDraw.Draw(Im)
+		if X==1:
+		 
+			self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight, Im, draw) #2D list of grid pixel coordinates eg [[0, 50, 100], [0, 100, 200]]. 1 List for x coordinates and 1 for y coordinates
+			self.Cells = Cells(self.Grids[0], self.Grids[1]) #3D list of all the cell coordinates eg [ [[0,1,2,3], [5, 6, 7]....], [[0,1,2,3,4], [6,7,8,9]....] . 1st list holds x coordinate lists and 2nd list y coordinate lists
+			drawMultCell(self.Cells[0][self.Start[0]], self.Cells[1][self.Start[1]], (255,0,0), draw)
+			drawMultCell(self.Cells[0][self.End[0]], self.Cells[1][self.End[1]], (0,255,0) , draw)
+			
+		elif X == 2:
+			for cell in self.Explored:
+				drawMultCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], (200,200,200), draw)
+			for cell in self.Open:
+				drawMultCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], (200,200,200), draw)
+			drawMultCell(self.Cells[0][self.Start[0]], self.Cells[1][self.Start[1]], (255,0,0), draw)
+			drawMultCell(self.Cells[0][self.End[0]], self.Cells[1][self.End[1]], (0,255,0) , draw)
+
+			self.Open = {}
+			self.Explored = {}
+
+		elif X == 3:
+			for cell in self.Obstacle:
+				drawMultCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], (200,200,200), draw)
+			self.Obstacle = []
+
+		try:	
+			Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
+			with self.canvas:
+				self.bg.reload()
+		except:
+			pass
+
+	
+
 
 
 	def Draw(self, instance, X):
