@@ -18,13 +18,16 @@ def Cells(HGrid, VGrid): #function that creates dataset of the XY coords of ever
 	return XCells, YCells
 	
 def drawCell(X,Y, color, source): #function that draws a single cell when you click on one
-
+	
 	Im = Image.open(source)
 	draw = ImageDraw.Draw(Im)
 	for y in Y:
 		for x in X:
 			draw.point([x, y], color)
-	Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
+	try:
+		Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
+	except:
+		return
 
 
 def drawMultCell(X,Y,color,draw):

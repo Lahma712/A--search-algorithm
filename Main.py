@@ -24,8 +24,8 @@ kivy.require("2.0.0")
 class Drw(Widget):
 	Width = int(input("\n\nWindow width (in pixels): "))
 	Height = int(input("\nWindow height (in pixels): "))
-	GCostMult = 1
-	HCostMult = 100
+	GCostMult = 100
+	HCostMult = 1
 	time.sleep(1)
 	Window.size = (Width, Height)
 	GWidth = int(Width) 
@@ -73,17 +73,21 @@ class Drw(Widget):
 
 
 	def Add(self, instance):
-
+		Im = Image.new("RGB", (self.GWidth, self.GHeight), (200,200,200))
+		Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
 		self.CellCount += 1
 		self.updateCanvas(self,1)
 		
 
 	def Sub(self, instance):
+		Im = Image.new("RGB", (self.GWidth, self.GHeight), (200,200,200))
+		Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
 		self.CellCount -= 1
 		self.updateCanvas(self,1)
 		
 
 	def AddClock(self, instance):
+		
 		self.event = Clock.schedule_interval(self.Add, 0.01) #starts clock to continually zoom out
 		self.event()
 
@@ -144,6 +148,7 @@ class Drw(Widget):
 
 
 	def updateCanvas(self, instance, X):
+		
 		Im = Image.open(r"C:\Users\{}\Desktop\Grid.png".format(host))
 		draw = ImageDraw.Draw(Im)
 		if X==1:
