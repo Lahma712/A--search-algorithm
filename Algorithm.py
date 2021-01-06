@@ -3,7 +3,7 @@ from PIL import Image, ImageDraw
 import getpass
 import math
 host = getpass.getuser()
-
+from io import BytesIO
 
 def Cells(HGrid, VGrid): #function that creates dataset of the XY coords of every cell
 	def cells(grid, Cells):
@@ -17,17 +17,6 @@ def Cells(HGrid, VGrid): #function that creates dataset of the XY coords of ever
 	cells(VGrid, XCells)
 	return XCells, YCells
 	
-def drawCell(X,Y, color, source): #function that draws a single cell when you click on one
-	
-	Im = Image.open(source)
-	draw = ImageDraw.Draw(Im)
-	for y in Y:
-		for x in X:
-			draw.point([x, y], color)
-	try:
-		Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
-	except:
-		return
 
 
 def drawMultCell(X,Y,color,draw):
@@ -101,7 +90,7 @@ def OpenDictionary(Open, OpenKey, Start, End, parent, Cells, Obstacle, Explored,
 	if tuple(OpenKey) not in Open and ((OpenKey[0] > -1 and OpenKey[1] > -1) and (OpenKey[0] < len(Cells[0]) and OpenKey[1] < len(Cells[1]))) and (OpenKey not in Obstacle) and (OpenKey != Start) and (tuple(OpenKey) not in Explored):
 		
 		Open[tuple(OpenKey)] = list(cost(OpenKey, Start, End, GCostMult, HCostMult)) + [parent]
-		drawCell(Cells[0][OpenKey[0]], Cells[1][OpenKey[1]], (0,0,255), source)
+		drawMultCell(Cells[0][OpenKey[0]], Cells[1][OpenKey[1]], (0,0,255), source)
 
 	return Open
 
@@ -130,13 +119,13 @@ def drawFrame(source, Cells, Obstacle, Start, End, Parent, Open, Explored, GCost
 
 
 	Explored[nextCell[0]] = list(nextCell[1])
-	drawCell(Cells[0][nextCell[0][0]], Cells[1][nextCell[0][1]], (255,0,255), source)
+	drawMultCell(Cells[0][nextCell[0][0]], Cells[1][nextCell[0][1]], (255,0,255), source)
 	del Open[nextCell[0]]
 	return nextCell
 
-def drawPath(draw, Cells, Explored, End):
+def drawPath(source, Cells, Explored, End):
 	if tuple(End) in Explored:
-		drawMultCell(Cells[0][Explored[tuple(End)][3][0]], Cells[1][Explored[tuple(End)][3][1]], (0,255,0), draw)
+		drawMultCell(Cells[0][Explored[tuple(End)][3][0]], Cells[1][Explored[tuple(End)][3][1]], (0,255,0), source)
 		
 		return list(Explored[tuple(End)][3])
 

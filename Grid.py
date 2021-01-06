@@ -3,7 +3,7 @@ import random
 import getpass
 host = getpass.getuser()
 
-def Grid(hCellCount, Width, Height, Im, draw):
+def Grid(hCellCount, Width, Height, draw):
     
     
     def contin(a, b, c, ExcessPixels, CellWidth, Axis, CellCount, C, counter, intv): #fuction that continues the algorithm with parameters given from the init function

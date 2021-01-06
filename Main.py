@@ -9,23 +9,25 @@ from kivy.uix.textinput import TextInput
 from kivy.clock import Clock
 import time
 from Grid import Grid
-from Algorithm import Cells, drawCell, drawFrame, drawPath, drawMultCell
+from Algorithm import Cells, drawFrame, drawPath, drawMultCell
 import os
 import PIL
 import getpass
 import math
 import random
 from PIL import Image, ImageDraw
+from kivy.uix.textinput import TextInput
 host = getpass.getuser()
 kivy.require("2.0.0")
-
+from io import BytesIO
+from kivy.core.image import Image as CoreImage
 
 
 class Drw(Widget):
-	Width = int(input("\n\nWindow width (in pixels): "))
-	Height = int(input("\nWindow height (in pixels): "))
+	Width = 800 #int(input("\n\nWindow width (in pixels): "))
+	Height = 800 #int(input("\nWindow height (in pixels): "))
 	GCostMult = 1
-	HCostMult = 100
+	HCostMult = 1
 	time.sleep(1)
 	Window.size = (Width, Height)
 	GWidth = int(Width) 
@@ -39,8 +41,9 @@ class Drw(Widget):
 	StartCheck = True #checks if there is a start cell
 	EndCheck = True #checks if there is an end cell
 	Im = Image.new("RGB", (GWidth, GHeight), (200,200,200))
-	Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
-
+	byte_io = BytesIO()
+	Im.save(byte_io, 'PNG')
+	
 	def __init__(self,**kwargs):
 		super(Drw, self).__init__(**kwargs)
 		self.CellCount = 50
@@ -48,11 +51,12 @@ class Drw(Widget):
 			self.check = False
 			self.y = 0
 			
+			self.bg = Bg(texture = self.ImageByte(self, self.byte_io.getvalue()).texture  , pos=(0, self.Height * 0.1), size = (self.GWidth, self.GHeight))
 			self.updateCanvas(self, 1)
-			self.bg = Bg(source= r"C:\Users\{}\Desktop\Grid.png".format(host), pos=(0, self.Height * 0.1), size = (self.GWidth, self.GHeight))
+			
             
-			self.add = Button(text = "zoom out", font_size =self.Height*0.05, size= (self.Width * 0.25, self.Height*0.10), pos = (0, 0))
-			self.sub = Button(text="zoom in", font_size=self.Height*0.05, size= (self.Width * 0.25, self.Height*0.10), pos=(self.Width - 0.75*self.Width, 0))
+			self.add = Button(text = "-", font_size =self.Height*0.05, size= (self.Width * 0.25, self.Height*0.05), pos = (self.Width - 0.75*self.Width, 0))
+			self.sub = Button(text="+", font_size=self.Height*0.05, size= (self.Width * 0.25, self.Height*0.05), pos=(self.Width - 0.75*self.Width, self.Height * 0.05))
             
 			self.add.bind(on_press= self.AddClock)
 			self.add.bind(on_release = self.ClockCancel)
@@ -69,26 +73,52 @@ class Drw(Widget):
 			self.clear.bind(on_press = self.Clear)
 			self.add_widget(self.clear)
 
+			self.GCostInput = TextInput(text = "G Cost Mult.: 1", font_size = self.Height * 0.025, size = (self.Width * 0.25, self.Height*0.05), pos = (0,0), multiline = False)
+			self.HCostInput = TextInput(text = "H Cost Mult.: 1", font_size = self.Height * 0.025, size = (self.Width * 0.25, self.Height*0.05), pos = (0,self.Height*0.05), multiline = False)
 
+			self.add_widget(self.GCostInput)
+			self.add_widget(self.HCostInput)
 
+			self.GCostInput.bind(text = self.GCostText)
+			self.HCostInput.bind(text = self.HCostText)
 
+	def ImageByte(self, instance, ImageByte):
+		self.buf = BytesIO(ImageByte)
+		self.Cim = CoreImage(self.buf, ext= 'png')
+		
+		return self.Cim
 
+	def GCostText(self,instance, text):
+		try:
+			self.GCostMult = int(''.join(filter(str.isdigit, self.GCostInput.text)))
+			
+		except:
+			pass
+		
+
+	def HCostText(self,instance, text):
+		try:
+			self.HCostMult = int(''.join(filter(str.isdigit, self.HCostInput.text)))
+		except:
+			pass
+	
 	def Add(self, instance):
-		Im = Image.new("RGB", (self.GWidth, self.GHeight), (200,200,200))
-		Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
+		self.Im = Image.new("RGB", (self.GWidth, self.GHeight), (200,200,200))
+		self.byte_io = BytesIO()
+		self.Im.save(self.byte_io, 'PNG')
 		self.CellCount += 1
 		self.updateCanvas(self,1)
 		
 
 	def Sub(self, instance):
-		Im = Image.new("RGB", (self.GWidth, self.GHeight), (200,200,200))
-		Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
+		self.Im = Image.new("RGB", (self.GWidth, self.GHeight), (200,200,200))
+		self.byte_io = BytesIO()
+		self.Im.save(self.byte_io, 'PNG')
 		self.CellCount -= 1
 		self.updateCanvas(self,1)
 		
 
 	def AddClock(self, instance):
-		
 		self.event = Clock.schedule_interval(self.Add, 0.01) #starts clock to continually zoom out
 		self.event()
 
@@ -103,41 +133,44 @@ class Drw(Widget):
 
 
 	def StartClock(self, instance):
-		
-		#if self.check != True:
 		self.x = 0
 		if self.y != 0:
 			self.Startevent.cancel()
 			self.y = 0
 			self.Parent = self.Start
-		self.updateCanvas(self, 2)
-		self.Startevent = Clock.schedule_interval(self.StartFrame, 0.01)
-			#self.check = True
+			self.updateCanvas(self, 2)
+
+		self.Startevent = Clock.schedule_interval(self.StartFrame, 0.0001)
+			
 		self.Startevent()
-			#self.check == False
+			
 
 	def StartFrame(self, instance): 
 		self.y = 1
-		self.Frame = drawFrame(r"C:\Users\{}\Desktop\Grid.png".format(host), self.Cells, self.Obstacle, self.Start, self.End, self.Parent, self.Open, self.Explored, self.GCostMult, self.HCostMult) #creates cells
+		self.Frame = drawFrame(self.draw, self.Cells, self.Obstacle, self.Start, self.End, self.Parent, self.Open, self.Explored, self.GCostMult, self.HCostMult) #creates cells
 		self.Parent = list(self.Frame[0])
-		
-		with self.canvas:
-			self.bg.reload()
 
+		self.byte_io = BytesIO()
+		self.Im.save(self.byte_io, 'PNG')
+		with self.canvas:
+			self.bg.texture = self.ImageByte(self, self.byte_io.getvalue()).texture
+
+			
 		if self.Parent == self.End:
-			Im = Image.open(r"C:\Users\{}\Desktop\Grid.png".format(host))
-			draw = ImageDraw.Draw(Im)
+			self.Im = Image.open(self.byte_io)
+			self.draw = ImageDraw.Draw(self.Im)
 			
 			
 			while self.Parent != self.Start:
-				self.Parent = drawPath(draw, self.Cells, self.Explored, self.Parent)
+				self.Parent = drawPath(self.draw, self.Cells, self.Explored, self.Parent)
 				self.check = False
-			drawMultCell(self.Cells[0][self.End[0]],self.Cells[1][self.End[1]], (0,255,0), draw)
-			Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
+			drawMultCell(self.Cells[0][self.End[0]],self.Cells[1][self.End[1]], (0,255,0), self.draw)
+			self.byte_io = BytesIO()
+			self.Im.save(self.byte_io, 'PNG')
 			with self.canvas:
-				self.bg.reload()
-			
+				self.bg.texture = self.ImageByte(self, self.byte_io.getvalue()).texture
 			self.Startevent.cancel()
+
 		
 
 	def Clear(self, instance):
@@ -160,36 +193,37 @@ class Drw(Widget):
 
 
 	def updateCanvas(self, instance, X):
-		
-		Im = Image.open(r"C:\Users\{}\Desktop\Grid.png".format(host))
-		draw = ImageDraw.Draw(Im)
+		self.Im = Image.open(self.byte_io)
+		self.draw = ImageDraw.Draw(self.Im)
 		if X==1:
 		 
-			self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight, Im, draw) #2D list of grid pixel coordinates eg [[0, 50, 100], [0, 100, 200]]. 1 List for x coordinates and 1 for y coordinates
+			self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight, self.draw) #2D list of grid pixel coordinates eg [[0, 50, 100], [0, 100, 200]]. 1 List for x coordinates and 1 for y coordinates
 			self.Cells = Cells(self.Grids[0], self.Grids[1]) #3D list of all the cell coordinates eg [ [[0,1,2,3], [5, 6, 7]....], [[0,1,2,3,4], [6,7,8,9]....] . 1st list holds x coordinate lists and 2nd list y coordinate lists
-			drawMultCell(self.Cells[0][self.Start[0]], self.Cells[1][self.Start[1]], (255,0,0), draw)
-			drawMultCell(self.Cells[0][self.End[0]], self.Cells[1][self.End[1]], (0,255,0) , draw)
+			drawMultCell(self.Cells[0][self.Start[0]], self.Cells[1][self.Start[1]], (255,0,0), self.draw)
+			drawMultCell(self.Cells[0][self.End[0]], self.Cells[1][self.End[1]], (0,255,0) , self.draw)
 			
 		elif X == 2:
 			for cell in self.Explored:
-				drawMultCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], (200,200,200), draw)
+				drawMultCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], (200,200,200), self.draw)
 			for cell in self.Open:
-				drawMultCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], (200,200,200), draw)
-			drawMultCell(self.Cells[0][self.Start[0]], self.Cells[1][self.Start[1]], (255,0,0), draw)
-			drawMultCell(self.Cells[0][self.End[0]], self.Cells[1][self.End[1]], (0,255,0) , draw)
+				drawMultCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], (200,200,200), self.draw)
+			drawMultCell(self.Cells[0][self.Start[0]], self.Cells[1][self.Start[1]], (255,0,0), self.draw)
+			drawMultCell(self.Cells[0][self.End[0]], self.Cells[1][self.End[1]], (0,255,0) , self.draw)
 
 			self.Open = {}
 			self.Explored = {}
 
 		elif X == 3:
 			for cell in self.Obstacle:
-				drawMultCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], (200,200,200), draw)
+				drawMultCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], (200,200,200), self.draw)
 			self.Obstacle = []
 
-		try:	
-			Im.save(r"C:\Users\{}\Desktop\Grid.png".format(host))
+		try:
+			self.byte_io = BytesIO()
+			self.Im.save(self.byte_io, 'PNG')
 			with self.canvas:
-				self.bg.reload()
+				self.bg.texture = self.ImageByte(self, self.byte_io.getvalue()).texture
+				
 		except:
 			pass
 
@@ -202,7 +236,6 @@ class Drw(Widget):
 		self.YcellList = [x for x in self.Cells[1] if self.Ytouch+X in x][0] #finds the pixel Y coordinates list containing the Y coordinate you clicked with the mouse 
 		self.cellIndexList = [self.Cells[0].index(self.XcellList), self.Cells[1].index(self.YcellList)] # produces a column/row list [column, row] of the cell you clicked with the mouse
 
-		
 		if self.Start == [] or self.End == []:
 			if self.Start == []:
 				self.Start = self.cellIndexList
@@ -215,17 +248,13 @@ class Drw(Widget):
 				self.color = (0,255,0)
 				self.EndCheck = True
 
-
-
 		elif self.checkSingleClick == True and (self.cellIndexList == self.Start or self.cellIndexList == self.End):
 			if self.cellIndexList == self.Start:
 				self.color = (200, 200,200)
 				self.Start = []
-				
 				self.StartCheck = False
 
 			if self.cellIndexList == self.End:
-				
 				self.color = (200, 200 ,200)
 				self.End = []
 				self.EndCheck = False
@@ -233,16 +262,17 @@ class Drw(Widget):
 
 		elif self.cellIndexList not in self.Obstacle: #checks if the cell you clicked is already clicked, if not the [column, pair] gets added to CurrentCells and the cell gets colored
 			self.Obstacle.append(self.cellIndexList)
-			
 			self.color = (0,0,0)
+
 		elif self.checkSingleClick == True and self.cellIndexList in self.Obstacle: #if you only clicked once, and on a cell that is already clicked/activated, it gets erased again
 			self.Obstacle.remove(self.cellIndexList)
 			self.color = (200, 200, 200)
 
-		drawCell(self.XcellList,self.YcellList, self.color, r"C:\Users\{}\Desktop\Grid.png".format(host)) #function that draws (or erases, based on the previous conditions) the cell you clicked
+		drawMultCell(self.XcellList,self.YcellList, self.color, self.draw) #function that draws (or erases, based on the previous conditions) the cell you clicked
+		self.byte_io = BytesIO()
+		self.Im.save(self.byte_io, 'PNG')
 		with self.canvas:
-			self.bg.reload()
-		
+			self.bg.texture = self.ImageByte(self, self.byte_io.getvalue()).texture
         
 
 	def onTouchFunctions(self, touch):
@@ -276,4 +306,4 @@ class AStar(App):
 
 if __name__ == "__main__":
 	AStar().run()
-	os.remove(r"C:\Users\{}\Desktop\Grid.png".format(host)) 
+	
