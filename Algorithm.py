@@ -1,8 +1,6 @@
 from Grid import Grid
 from PIL import Image, ImageDraw
-import getpass
 import math
-host = getpass.getuser()
 from io import BytesIO
 
 def Cells(HGrid, VGrid): #function that creates dataset of the XY coords of every cell
@@ -19,12 +17,12 @@ def Cells(HGrid, VGrid): #function that creates dataset of the XY coords of ever
 	
 
 
-def drawMultCell(X,Y,color,draw):
+def drawCell(X,Y,color,draw): #draws cell
 	for y in Y:
 		for x in X:
 			draw.point([x, y], color)
 
-def distance(x, y):
+def distance(x, y): #calculates distance from current node to start/end node
 	diag = 0
 	a=x[:]
 	b=y[:]
@@ -79,18 +77,18 @@ def distance(x, y):
 			return abs(a[0]-b[0]) * HVCost + diag
 
 
-def cost(Cell, Start, End, GCostMult, HCostMult):
+def cost(Cell, Start, End, GCostMult, HCostMult):#calculates cost based on distance
 	GCost = distance(Start, Cell) * GCostMult
 	HCost = distance(End, Cell) * HCostMult
 
 	return GCost, HCost, GCost + HCost
 
 
-def OpenDictionary(Open, OpenKey, Start, End, parent, Cells, Obstacle, Explored, source, GCostMult, HCostMult):
+def OpenDictionary(Open, OpenKey, Start, End, parent, Cells, Obstacle, Explored, source, GCostMult, HCostMult): #adds cell to Open dictionary
 	if tuple(OpenKey) not in Open and ((OpenKey[0] > -1 and OpenKey[1] > -1) and (OpenKey[0] < len(Cells[0]) and OpenKey[1] < len(Cells[1]))) and (OpenKey not in Obstacle) and (OpenKey != Start) and (tuple(OpenKey) not in Explored):
 		
 		Open[tuple(OpenKey)] = list(cost(OpenKey, Start, End, GCostMult, HCostMult)) + [parent]
-		drawMultCell(Cells[0][OpenKey[0]], Cells[1][OpenKey[1]], (0,0,255), source)
+		drawCell(Cells[0][OpenKey[0]], Cells[1][OpenKey[1]], (0,0,255), source)
 
 	return Open
 
@@ -109,7 +107,7 @@ def drawFrame(source, Cells, Obstacle, Start, End, Parent, Open, Explored, GCost
 
 	minFCost = 99999999
 	nextCell = 0
-	for item in Open.items():
+	for item in Open.items():  #finds next cell based on lowest F Cost
 
 		if item[1][2] < minFCost:
 			minFCost = item[1][2]
@@ -119,13 +117,13 @@ def drawFrame(source, Cells, Obstacle, Start, End, Parent, Open, Explored, GCost
 
 
 	Explored[nextCell[0]] = list(nextCell[1])
-	drawMultCell(Cells[0][nextCell[0][0]], Cells[1][nextCell[0][1]], (255,0,255), source)
+	drawCell(Cells[0][nextCell[0][0]], Cells[1][nextCell[0][1]], (255,0,255), source)
 	del Open[nextCell[0]]
 	return nextCell
 
-def drawPath(source, Cells, Explored, End):
+def drawPath(source, Cells, Explored, End): #retraces path through parents 
 	if tuple(End) in Explored:
-		drawMultCell(Cells[0][Explored[tuple(End)][3][0]], Cells[1][Explored[tuple(End)][3][1]], (0,255,0), source)
+		drawCell(Cells[0][Explored[tuple(End)][3][0]], Cells[1][Explored[tuple(End)][3][1]], (0,255,0), source)
 		
 		return list(Explored[tuple(End)][3])
 
