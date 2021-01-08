@@ -32,7 +32,16 @@ class Drw(Widget):
 	StartCheck = True #is later used for checking if there is a start cell
 	EndCheck = True 
 
-	Im = Image.new("RGB", (GWidth, GHeight), (200,200,200))
+	BgColor = (0,0,0)
+	StartColor = (255,0,0)
+	EndColor = (0,255,0)
+	PathColor = (0,255,255)
+	GridColor = (20,20,20)
+	ObsColor = (210,210, 0)
+	ExpColor = (255,0,255)
+	OpenColor = (100, 0, 100)
+
+	Im = Image.new("RGB", (GWidth, GHeight), BgColor)
 	byte_io = BytesIO() #buffer for saving images in memory
 	Im.save(byte_io, 'PNG')
 	
@@ -87,33 +96,29 @@ class Drw(Widget):
 		except:
 			pass
 		
-	
 	def HCostText(self,instance, text):
 		try:
 			self.HCostMult = int(''.join(filter(str.isdigit, self.HCostInput.text)))
 		except:
 			pass
-	
-	
-	def Add(self, instance):
-		self.Im = Image.new("RGB", (self.GWidth, self.GHeight), (200,200,200))  #Function that creates a new frame/Background with more cells
+
+	def AddSub(self, instance):
+		self.Im = Image.new("RGB", (self.GWidth, self.GHeight), self.BgColor)  #Function that creates a new frame/Background with more cells
 		self.byte_io = BytesIO()
 		self.Im.save(self.byte_io, 'PNG')
-		self.CellCount += 1
 		try:
 			self.updateFrame(self,1)
 		except:
 			return
+	
+	def Add(self, instance):
+		self.CellCount += 1
+		self.AddSub(self)
 		
-
 	def Sub(self, instance):
-		self.Im = Image.new("RGB", (self.GWidth, self.GHeight), (200,200,200)) #Function that creates a new frame/Background with less cells
-		self.byte_io = BytesIO()
-		self.Im.save(self.byte_io, 'PNG')
 		self.CellCount -= 1
-		self.updateFrame(self,1)
+		self.AddSub(self)
 		
-
 	def AddClock(self, instance):
 		self.event = Clock.schedule_interval(self.Add, 0.01) #starts clock to continually zoom out
 		self.event()
@@ -142,7 +147,7 @@ class Drw(Widget):
 			
 
 	def StartFrame(self, instance): #is called every frame, draws frames
-		self.Frame = drawFrame(self.draw, self.Cells, self.Obstacle, self.Start, self.End, self.Current, self.Open, self.Explored, self.GCostMult, self.HCostMult) #creates cells
+		self.Frame = drawFrame(self.draw, self.Cells, self.Obstacle, self.Start, self.End, self.Current, self.Open, self.Explored, self.GCostMult, self.HCostMult, self.OpenColor, self.ExpColor) #creates cells
 		self.Current = list(self.Frame[0]) #current cell 
 		self.save(self)
 		
@@ -151,16 +156,15 @@ class Drw(Widget):
 			self.draw = ImageDraw.Draw(self.Im)
 			
 			while self.Current != self.Start: #retraces the path back to the start node
-				self.Current = drawPath(self.draw, self.Cells, self.Explored, self.Current)
+				self.Current = drawPath(self.draw, self.Cells, self.Explored, self.Current, self.PathColor)
 				self.check = False
 
-			drawCell(self.Cells[0][self.End[0]],self.Cells[1][self.End[1]], (0,255,0), self.draw)
+			drawCell(self.Cells[0][self.End[0]],self.Cells[1][self.End[1]], self.PathColor, self.draw)
 
 			self.save(self)
 			self.Startevent.cancel()
 
-		
-
+	
 	def Clear(self, instance): #clears the background/frame, in two steps
 		try:
 			self.Startevent.cancel()
@@ -183,33 +187,31 @@ class Drw(Widget):
 		self.draw = ImageDraw.Draw(self.Im)
 		if X==1: #draws empty grid
 			try:
-				self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight, self.draw) #2D list of grid pixel coordinates eg [[0, 50, 100], [0, 100, 200]]. 1 List for x coordinates and 1 for y coordinates
+				self.Grids = Grid(self.CellCount, self.GWidth, self.GHeight, self.draw, self.GridColor) #2D list of grid pixel coordinates eg [[0, 50, 100], [0, 100, 200]]. 1 List for x coordinates and 1 for y coordinates
 				self.Cells = Cells(self.Grids[0], self.Grids[1]) #3D list of all the cell coordinates eg [ [[0,1,2,3], [5, 6, 7]....], [[0,1,2,3,4], [6,7,8,9]....] . 1st list holds x coordinate lists and 2nd list y coordinate lists
 			
-				drawCell(self.Cells[0][self.Start[0]], self.Cells[1][self.Start[1]], (255,0,0), self.draw)
-				drawCell(self.Cells[0][self.End[0]], self.Cells[1][self.End[1]], (0,255,0) , self.draw)
+				drawCell(self.Cells[0][self.Start[0]], self.Cells[1][self.Start[1]], self.StartColor, self.draw)
+				drawCell(self.Cells[0][self.End[0]], self.Cells[1][self.End[1]], self.EndColor , self.draw)
 				for cell in self.Obstacle:
-					drawCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], (0,0,0), self.draw)
+					drawCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], self.ObsColor, self.draw)
 			except:
 				pass
 
-			
-
 		elif X == 2: #deletes algorithm path, leaves obstacles
 			for cell in self.Explored:
-				drawCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], (200,200,200), self.draw)
+				drawCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], self.BgColor, self.draw)
 			for cell in self.Open:
-				drawCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], (200,200,200), self.draw)
+				drawCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], self.BgColor, self.draw)
 			for cell in self.Obstacle:
-				drawCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], (0,0,0), self.draw)
-			drawCell(self.Cells[0][self.Start[0]], self.Cells[1][self.Start[1]], (255,0,0), self.draw)
-			drawCell(self.Cells[0][self.End[0]], self.Cells[1][self.End[1]], (0,255,0) , self.draw)
+				drawCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], self.ObsColor, self.draw)
+			drawCell(self.Cells[0][self.Start[0]], self.Cells[1][self.Start[1]], self.StartColor, self.draw)
+			drawCell(self.Cells[0][self.End[0]], self.Cells[1][self.End[1]], self.EndColor , self.draw)
 			self.Open = {}
 			self.Explored = {}
 
 		elif X == 3: #deletes obstacles
 			for cell in self.Obstacle:
-				drawCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], (200,200,200), self.draw)
+				drawCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], self.BgColor, self.draw)
 			self.Obstacle = []
 
 		try:
@@ -228,7 +230,7 @@ class Drw(Widget):
 		elif self.Start == [] or self.End == []:
 			if self.Start == []:
 				self.Start = self.cellIndexList
-				self.color = (255,0,0)
+				self.color = self.StartColor
 				self.StartCheck = True
 				self.Current = self.cellIndexList
 				if self.Start in self.Obstacle:
@@ -236,30 +238,30 @@ class Drw(Widget):
 
 			if self.End == []:
 				self.End = self.cellIndexList
-				self.color = (0,255,0)
+				self.color = self.EndColor
 				self.EndCheck = True
 				if self.End in self.Obstacle:
 					self.Obstacle.remove(self.End)
 
 		elif self.checkSingleClick == True and (self.cellIndexList == self.Start or self.cellIndexList == self.End):
 			if self.cellIndexList == self.Start:
-				self.color = (200, 200,200)
+				self.color = self.BgColor
 				self.Start = []
 				self.StartCheck = False
 
 			if self.cellIndexList == self.End:
-				self.color = (200, 200 ,200)
+				self.color = self.BgColor
 				self.End = []
 				self.EndCheck = False
 
 		elif self.cellIndexList not in self.Obstacle and (self.cellIndexList != self.Start and self.cellIndexList != self.End): #checks if the cell you clicked is already clicked, if not the [column, pair] gets added to CurrentCells and the cell gets colored
 			
 			self.Obstacle.append(self.cellIndexList)
-			self.color = (0,0,0)
+			self.color = self.ObsColor
 
 		elif self.checkSingleClick == True and self.cellIndexList in self.Obstacle: #if you only clicked once, and on a cell that is already clicked/activated, it gets erased again
 			self.Obstacle.remove(self.cellIndexList)
-			self.color = (200, 200, 200)
+			self.color = self.BgColor
 
 		drawCell(self.XcellList,self.YcellList, self.color, self.draw) #function that draws (or erases, based on the previous conditions) the cell you clicked
 		self.save(self)

@@ -77,23 +77,23 @@ def cost(Cell, Start, End, GCostMult, HCostMult):#calculates cost based on dista
 	return GCost, HCost, GCost + HCost
 
 
-def OpenDictionary(Open, OpenKey, Start, End, parent, Cells, Obstacle, Explored, source, GCostMult, HCostMult): #adds cell to Open dictionary
+def OpenDictionary(Open, OpenKey, Start, End, parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor): #adds cell to Open dictionary
 	if tuple(OpenKey) not in Open and ((OpenKey[0] > -1 and OpenKey[1] > -1) and (OpenKey[0] < len(Cells[0]) and OpenKey[1] < len(Cells[1]))) and (OpenKey not in Obstacle) and (OpenKey != Start) and (tuple(OpenKey) not in Explored):
 		
 		Open[tuple(OpenKey)] = list(cost(OpenKey, Start, End, GCostMult, HCostMult)) + [parent]
-		drawCell(Cells[0][OpenKey[0]], Cells[1][OpenKey[1]], (0,0,255), source)
+		drawCell(Cells[0][OpenKey[0]], Cells[1][OpenKey[1]], OpenColor, draw)
 
 	return Open
 
-def drawFrame(source, Cells, Obstacle, Start, End, Parent, Open, Explored, GCostMult, HCostMult):
-	OpenDictionary(Open, [Parent[0]+1, Parent[1]], Start, End, Parent, Cells, Obstacle, Explored, source, GCostMult, HCostMult)
-	OpenDictionary(Open, [Parent[0], Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, source, GCostMult, HCostMult)
-	OpenDictionary(Open, [Parent[0]+1, Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, source,GCostMult, HCostMult)
-	OpenDictionary(Open, [Parent[0]-1, Parent[1]], Start, End, Parent, Cells, Obstacle, Explored, source, GCostMult, HCostMult)
-	OpenDictionary(Open, [Parent[0], Parent[1]-1], Start, End, Parent, Cells, Obstacle, Explored, source, GCostMult, HCostMult)
-	OpenDictionary(Open, [Parent[0]-1, Parent[1]-1], Start, End, Parent, Cells, Obstacle, Explored, source, GCostMult, HCostMult)
-	OpenDictionary(Open, [Parent[0]-1, Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, source, GCostMult, HCostMult)
-	OpenDictionary(Open, [Parent[0]+1, Parent[1]-1], Start, End, Parent, Cells, Obstacle, Explored, source, GCostMult, HCostMult)
+def drawFrame(draw, Cells, Obstacle, Start, End, Parent, Open, Explored, GCostMult, HCostMult, OpenColor, ExpColor):
+	OpenDictionary(Open, [Parent[0]+1, Parent[1]], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor)
+	OpenDictionary(Open, [Parent[0], Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor)
+	OpenDictionary(Open, [Parent[0]+1, Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, draw,GCostMult, HCostMult, OpenColor)
+	OpenDictionary(Open, [Parent[0]-1, Parent[1]], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor)
+	OpenDictionary(Open, [Parent[0], Parent[1]-1], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor)
+	OpenDictionary(Open, [Parent[0]-1, Parent[1]-1], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor)
+	OpenDictionary(Open, [Parent[0]-1, Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor)
+	OpenDictionary(Open, [Parent[0]+1, Parent[1]-1], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor)
 	
 	minFCost = 99999999
 	nextCell = 0
@@ -104,13 +104,13 @@ def drawFrame(source, Cells, Obstacle, Start, End, Parent, Open, Explored, GCost
 		elif item[1][2] == minFCost and item[1][1] < nextCell[1][1]:
 			nextCell = item
 	Explored[nextCell[0]] = list(nextCell[1])
-	drawCell(Cells[0][nextCell[0][0]], Cells[1][nextCell[0][1]], (255,0,255), source)
+	drawCell(Cells[0][nextCell[0][0]], Cells[1][nextCell[0][1]], ExpColor, draw)
 	del Open[nextCell[0]]
 	return nextCell
 
-def drawPath(source, Cells, Explored, End): #retraces path through parents 
+def drawPath(draw, Cells, Explored, End, color): #retraces path through parents 
 	if tuple(End) in Explored:
-		drawCell(Cells[0][Explored[tuple(End)][3][0]], Cells[1][Explored[tuple(End)][3][1]], (0,255,0), source)
+		drawCell(Cells[0][Explored[tuple(End)][3][0]], Cells[1][Explored[tuple(End)][3][1]], color, draw)
 		
 		return list(Explored[tuple(End)][3])
 
