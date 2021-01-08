@@ -1,8 +1,3 @@
-from Grid import Grid
-from PIL import Image, ImageDraw
-import math
-from io import BytesIO
-
 def Cells(HGrid, VGrid): #function that creates dataset of the XY coords of every cell
 	def cells(grid, Cells):
 		for x in range(len(grid)-1):
@@ -44,7 +39,6 @@ def distance(x, y): #calculates distance from current node to start/end node
 		elif b[1] == a[1]:
 			return abs(a[0]-b[0]) * HVCost + diag
 
-
 	elif b[0] > a[0] and b[1] > a[1]:
 		while b[0] != a[0] and b[1] != a[1]:
 			a[0] = a[0] +1
@@ -64,7 +58,6 @@ def distance(x, y): #calculates distance from current node to start/end node
 			return abs(a[1]-b[1]) * HVCost + diag
 		elif b[1] == a[1]:
 			return abs(a[0]-b[0]) * HVCost + diag
-
 
 	elif b[0] > a[0] and b[1] < a[1]:
 		while b[0] != a[0] and b[1] != a[1]:
@@ -93,8 +86,6 @@ def OpenDictionary(Open, OpenKey, Start, End, parent, Cells, Obstacle, Explored,
 	return Open
 
 def drawFrame(source, Cells, Obstacle, Start, End, Parent, Open, Explored, GCostMult, HCostMult):
-	
-
 	OpenDictionary(Open, [Parent[0]+1, Parent[1]], Start, End, Parent, Cells, Obstacle, Explored, source, GCostMult, HCostMult)
 	OpenDictionary(Open, [Parent[0], Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, source, GCostMult, HCostMult)
 	OpenDictionary(Open, [Parent[0]+1, Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, source,GCostMult, HCostMult)
@@ -104,18 +95,14 @@ def drawFrame(source, Cells, Obstacle, Start, End, Parent, Open, Explored, GCost
 	OpenDictionary(Open, [Parent[0]-1, Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, source, GCostMult, HCostMult)
 	OpenDictionary(Open, [Parent[0]+1, Parent[1]-1], Start, End, Parent, Cells, Obstacle, Explored, source, GCostMult, HCostMult)
 	
-
 	minFCost = 99999999
 	nextCell = 0
 	for item in Open.items():  #finds next cell based on lowest F Cost
-
 		if item[1][2] < minFCost:
 			minFCost = item[1][2]
 			nextCell = item
 		elif item[1][2] == minFCost and item[1][1] < nextCell[1][1]:
 			nextCell = item
-
-
 	Explored[nextCell[0]] = list(nextCell[1])
 	drawCell(Cells[0][nextCell[0][0]], Cells[1][nextCell[0][1]], (255,0,255), source)
 	del Open[nextCell[0]]

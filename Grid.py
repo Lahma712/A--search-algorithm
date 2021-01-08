@@ -1,7 +1,3 @@
-from PIL import Image, ImageDraw
-import random
-
-
 def Grid(hCellCount, Width, Height, draw):
     
     def contin(a, b, c, ExcessPixels, CellWidth, Axis, CellCount, C, counter, intv): #fuction that continues the algorithm with parameters given from the init function
@@ -64,6 +60,5 @@ def Grid(hCellCount, Width, Height, draw):
     
     Draw(range(Width), HGrid, gcolor)
     Draw(VGrid, range(Height), gcolor)
-   
    
     return HGrid, VGrid, vCellCount

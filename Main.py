@@ -1,22 +1,15 @@
 import kivy
 from kivy.app import App
 from kivy.uix.widget import Widget
-from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.core.window import Window
 from kivy.uix.textinput import TextInput
 from kivy.core.image import Image as CImage
 from kivy.uix.image import Image as BgImage
-
-
 from kivy.clock import Clock
-import time
 from Grid import Grid
 from Algorithm import Cells, drawFrame, drawPath, drawCell
-import os
-import PIL
 import math
-import random
 from PIL import Image, ImageDraw
 from io import BytesIO
 
@@ -27,7 +20,6 @@ class Drw(Widget):
 	Height = 500 
 	GCostMult = 1 #G Cost multiplier
 	HCostMult = 1 #H Cost multiplier
-	time.sleep(1)
 	Window.size = (Width, Height)
 	GWidth = int(Width) 
 	GHeight = int(Height * 0.9) #grid height is a little bit shorter than the full window size because of the buttons 
@@ -48,7 +40,6 @@ class Drw(Widget):
 		super(Drw, self).__init__(**kwargs)
 		self.CellCount = 50
 		with self.canvas:
-
 			self.check = False
 			self.Bg = BgImage(pos=(0, self.Height * 0.1), size = (self.GWidth, self.GHeight)) #background image 
 			self.updateFrame(self, 1)
@@ -82,24 +73,27 @@ class Drw(Widget):
 		self.BgIm = CImage(self.Buffer, ext= 'png')
 		return self.BgIm
 
+	
 	def save(self, instance):
 		self.byte_io = BytesIO()
 		self.Im.save(self.byte_io, 'PNG')
 		with self.canvas:
 			self.Bg.texture = self.ImageByte(self, self.byte_io.getvalue()).texture
 
+	
 	def GCostText(self,instance, text): #function that handles text input for GCost
 		try:
 			self.GCostMult = int(''.join(filter(str.isdigit, self.GCostInput.text)))
 		except:
 			pass
 		
-
+	
 	def HCostText(self,instance, text):
 		try:
 			self.HCostMult = int(''.join(filter(str.isdigit, self.HCostInput.text)))
 		except:
 			pass
+	
 	
 	def Add(self, instance):
 		self.Im = Image.new("RGB", (self.GWidth, self.GHeight), (200,200,200))  #Function that creates a new frame/Background with more cells
@@ -117,7 +111,6 @@ class Drw(Widget):
 		self.byte_io = BytesIO()
 		self.Im.save(self.byte_io, 'PNG')
 		self.CellCount -= 1
-		
 		self.updateFrame(self,1)
 		
 
@@ -195,11 +188,12 @@ class Drw(Widget):
 			
 				drawCell(self.Cells[0][self.Start[0]], self.Cells[1][self.Start[1]], (255,0,0), self.draw)
 				drawCell(self.Cells[0][self.End[0]], self.Cells[1][self.End[1]], (0,255,0) , self.draw)
+				for cell in self.Obstacle:
+					drawCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], (0,0,0), self.draw)
 			except:
 				pass
 
-			for cell in self.Obstacle:
-				drawCell(self.Cells[0][cell[0]], self.Cells[1][cell[1]], (0,0,0), self.draw)
+			
 
 		elif X == 2: #deletes algorithm path, leaves obstacles
 			for cell in self.Explored:
@@ -227,12 +221,10 @@ class Drw(Widget):
 		self.XcellList = [x for x in self.Cells[0] if self.Xtouch+X in x][0] #finds the pixel X coordinates list containing the X coordinate you clicked with the mouse 
 		self.YcellList = [x for x in self.Cells[1] if self.Ytouch+X in x][0] #finds the pixel Y coordinates list containing the Y coordinate you clicked with the mouse 
 		self.cellIndexList = [self.Cells[0].index(self.XcellList), self.Cells[1].index(self.YcellList)] # produces a column/row list [column, row] of the cell you clicked with the mouse
-		#4 If conditions that handle when you click on a start/end node
-		if (self.Start == [] and self.cellIndexList == self.End) or (self.End ==[] and self.cellIndexList == self.Start):
+		#3 If conditions that handle when you click on a start/end node
+		if (self.Start == [] and self.cellIndexList == self.End) or (self.End ==[] and self.cellIndexList == self.Start) or (self.checkSingleClick == False and self.cellIndexList in [self.Start, self.End]):
 			return
-		if (self.checkSingleClick == False and self.cellIndexList in [self.Start, self.End]):
-			return
-
+		
 		elif self.Start == [] or self.End == []:
 			if self.Start == []:
 				self.Start = self.cellIndexList
@@ -259,7 +251,6 @@ class Drw(Widget):
 				self.color = (200, 200 ,200)
 				self.End = []
 				self.EndCheck = False
-
 
 		elif self.cellIndexList not in self.Obstacle and (self.cellIndexList != self.Start and self.cellIndexList != self.End): #checks if the cell you clicked is already clicked, if not the [column, pair] gets added to CurrentCells and the cell gets colored
 			
