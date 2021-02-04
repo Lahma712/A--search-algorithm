@@ -11,7 +11,6 @@ def Cells(HGrid, VGrid): #function that creates dataset of the XY coords of ever
 	return XCells, YCells
 	
 
-
 def drawCell(X,Y,color,draw): #draws cell
 	for y in Y:
 		for x in X:

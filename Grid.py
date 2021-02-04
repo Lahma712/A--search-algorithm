@@ -1,5 +1,4 @@
 def Grid(hCellCount, Width, Height, draw, GridColor):
-    
     def contin(a, b, c, ExcessPixels, CellWidth, Axis, CellCount, C, counter, intv): #fuction that continues the algorithm with parameters given from the init function
         C += CellWidth+a #second grid pixel after 0 is placed a little sooner
         Axis += [C]

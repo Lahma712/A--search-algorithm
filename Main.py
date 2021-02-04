@@ -12,7 +12,6 @@ from Algorithm import Cells, drawFrame, drawPath, drawCell
 import math
 from PIL import Image, ImageDraw
 from io import BytesIO
-
 kivy.require("2.0.0")
 
 class Drw(Widget):
@@ -77,7 +76,7 @@ class Drw(Widget):
 			self.GCostInput.bind(text = self.GCostText)
 			self.HCostInput.bind(text = self.HCostText)
 
-	def ImageByte(self, instance, ImageByte):
+	def ImageByte(self, instance, ImageByte): #used to store image in memory buffer
 		self.Buffer = BytesIO(ImageByte)
 		self.BgIm = CImage(self.Buffer, ext= 'png')
 		return self.BgIm
@@ -96,7 +95,7 @@ class Drw(Widget):
 		except:
 			pass
 		
-	def HCostText(self,instance, text):
+	def HCostText(self,instance, text): 
 		try:
 			self.HCostMult = int(''.join(filter(str.isdigit, self.HCostInput.text)))
 		except:
@@ -254,7 +253,7 @@ class Drw(Widget):
 				self.End = []
 				self.EndCheck = False
 
-		elif self.cellIndexList not in self.Obstacle and (self.cellIndexList != self.Start and self.cellIndexList != self.End): #checks if the cell you clicked is already clicked, if not the [column, pair] gets added to CurrentCells and the cell gets colored
+		elif self.cellIndexList not in self.Obstacle and (self.cellIndexList != self.Start and self.cellIndexList != self.End): #checks if the cell you clicked is already clicked, if not the [column, pair] gets added to Obstacles and the cell gets colored
 			
 			self.Obstacle.append(self.cellIndexList)
 			self.color = self.ObsColor
