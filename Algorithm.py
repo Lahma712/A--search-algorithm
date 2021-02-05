@@ -1,3 +1,4 @@
+
 def Cells(HGrid, VGrid): #function that creates dataset of the XY coords of every cell
 	def cells(grid, Cells):
 		for x in range(len(grid)-1):
@@ -16,12 +17,11 @@ def drawCell(X,Y,color,draw): #draws cell
 		for x in X:
 			draw.point([x, y], color)
 
-def distance(x, y): #calculates distance from current node to start/end node
+def distance(x, y, HVCost, DCost): #calculates distance from current node to start/end node
 	diag = 0
 	a=x[:]
 	b=y[:]
-	HVCost = 10 #horizontal and vertical cost
-	DCost = 14 #diagonal cost
+	
 
 	if a[0] == b[0]:
 		return abs(a[1]-b[1]) * HVCost
@@ -69,30 +69,30 @@ def distance(x, y): #calculates distance from current node to start/end node
 			return abs(a[0]-b[0]) * HVCost + diag
 
 
-def cost(Cell, Start, End, GCostMult, HCostMult):#calculates cost based on distance
-	GCost = distance(Start, Cell) * GCostMult
-	HCost = distance(End, Cell) * HCostMult
+def cost(Cell, Start, End, GCostMult, HCostMult, HVCost, DCost):#calculates cost based on distance
+	GCost = distance(Start, Cell, HVCost, DCost) * GCostMult
+	HCost = distance(End, Cell, HVCost, DCost) * HCostMult
 
 	return GCost, HCost, GCost + HCost
 
 
-def OpenDictionary(Open, OpenKey, Start, End, parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor): #adds cell to Open dictionary
+def OpenDictionary(Open, OpenKey, Start, End, parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor, HVCost, DCost): #adds cell to Open dictionary
 	if tuple(OpenKey) not in Open and ((OpenKey[0] > -1 and OpenKey[1] > -1) and (OpenKey[0] < len(Cells[0]) and OpenKey[1] < len(Cells[1]))) and (OpenKey not in Obstacle) and (OpenKey != Start) and (tuple(OpenKey) not in Explored):
 		
-		Open[tuple(OpenKey)] = list(cost(OpenKey, Start, End, GCostMult, HCostMult)) + [parent]
+		Open[tuple(OpenKey)] = list(cost(OpenKey, Start, End, GCostMult, HCostMult, HVCost, DCost)) + [parent]
 		drawCell(Cells[0][OpenKey[0]], Cells[1][OpenKey[1]], OpenColor, draw)
 
 	return Open
 
-def drawFrame(draw, Cells, Obstacle, Start, End, Parent, Open, Explored, GCostMult, HCostMult, OpenColor, ExpColor):
-	OpenDictionary(Open, [Parent[0]+1, Parent[1]], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor)
-	OpenDictionary(Open, [Parent[0], Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor)
-	OpenDictionary(Open, [Parent[0]+1, Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, draw,GCostMult, HCostMult, OpenColor)
-	OpenDictionary(Open, [Parent[0]-1, Parent[1]], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor)
-	OpenDictionary(Open, [Parent[0], Parent[1]-1], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor)
-	OpenDictionary(Open, [Parent[0]-1, Parent[1]-1], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor)
-	OpenDictionary(Open, [Parent[0]-1, Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor)
-	OpenDictionary(Open, [Parent[0]+1, Parent[1]-1], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor)
+def drawFrame(draw, Cells, Obstacle, Start, End, Parent, Open, Explored, GCostMult, HCostMult, OpenColor, ExpColor, HVCost, DCost):
+	OpenDictionary(Open, [Parent[0]+1, Parent[1]], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor, HVCost, DCost)
+	OpenDictionary(Open, [Parent[0], Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor, HVCost, DCost)
+	OpenDictionary(Open, [Parent[0]+1, Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, draw,GCostMult, HCostMult, OpenColor, HVCost, DCost)
+	OpenDictionary(Open, [Parent[0]-1, Parent[1]], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor, HVCost, DCost)
+	OpenDictionary(Open, [Parent[0], Parent[1]-1], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor, HVCost, DCost)
+	OpenDictionary(Open, [Parent[0]-1, Parent[1]-1], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor, HVCost, DCost)
+	OpenDictionary(Open, [Parent[0]-1, Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor, HVCost, DCost)
+	OpenDictionary(Open, [Parent[0]+1, Parent[1]-1], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor,HVCost, DCost)
 	
 	minFCost = 99999999
 	nextCell = 0

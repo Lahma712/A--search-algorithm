@@ -39,6 +39,8 @@ class Drw(Widget):
 	ObsColor = (210,210, 0)
 	ExpColor = (255,0,255)
 	OpenColor = (100, 0, 100)
+	HVCost = 10
+	DCost = 14
 
 	Im = Image.new("RGB", (GWidth, GHeight), BgColor)
 	byte_io = BytesIO() #buffer for saving images in memory
@@ -52,8 +54,8 @@ class Drw(Widget):
 			self.Bg = BgImage(pos=(0, self.Height * 0.1), size = (self.GWidth, self.GHeight)) #background image 
 			self.updateFrame(self, 1)
 			
-			self.add = Button(text = "-", font_size =self.Height*0.05, size= (self.Width * 0.25, self.Height*0.05), pos = (self.Width - 0.75*self.Width, 0))
-			self.sub = Button(text="+", font_size=self.Height*0.05, size= (self.Width * 0.25, self.Height*0.05), pos=(self.Width - 0.75*self.Width, self.Height * 0.05))
+			self.add = Button(text = "-", font_size =self.Height*0.05, size= (self.Width * 0.25, self.Height*0.05), pos = (self.Width *0.5, 0))
+			self.sub = Button(text="+", font_size=self.Height*0.05, size= (self.Width * 0.25, self.Height*0.05), pos=(self.Width *0.5, self.Height * 0.05))
 			self.add.bind(on_press= self.AddClock)
 			self.add.bind(on_release = self.ClockCancel)
 			self.sub.bind(on_press = self.SubClock)
@@ -61,21 +63,23 @@ class Drw(Widget):
 			self.add_widget(self.sub)
 			self.add_widget(self.add)
 
-			self.start = Button(text="start", font_size=self.Height*0.05, size = (self.Width * 0.25, self.Height*0.10), pos=(self.Width - 0.50*self.Width, 0))
+			self.start = Button(text="start", font_size=self.Height*0.05, size = (self.Width * 0.125, self.Height*0.10), pos=(self.Width*0.875, 0))
 			self.start.bind(on_press = self.StartClock)
 			self.add_widget(self.start)
 
-			self.clear = Button(text="clear", font_size=self.Height*0.05, size = (self.Width *0.25, self.Height*0.10), pos =(self.Width - 0.25*self.Width, 0))
+			self.clear = Button(text="clear", font_size=self.Height*0.05, size = (self.Width *0.125, self.Height*0.10), pos =(self.Width*0.75, 0))
 			self.clear.bind(on_press = self.Clear)
 			self.add_widget(self.clear)
 
-			self.GCostInput = TextInput(text = "G Cost Mult.: 1", font_size = self.Height * 0.025, size = (self.Width * 0.25, self.Height*0.05), pos = (0,0), multiline = False)
-			self.HCostInput = TextInput(text = "H Cost Mult.: 1", font_size = self.Height * 0.025, size = (self.Width * 0.25, self.Height*0.05), pos = (0,self.Height*0.05), multiline = False)
+			self.GCostInput = TextInput(text = "G Cost Mult.: 1", font_size = self.Height * 0.020, size = (self.Width * 0.25, self.Height*0.05), pos = (self.Width * 0.25,0), multiline = False)
+			self.HCostInput = TextInput(text = "H Cost Mult.: 1", font_size = self.Height * 0.020, size = (self.Width * 0.25, self.Height*0.05), pos = (self.Width * 0.25,self.Height*0.05), multiline = False)
+			self.HVCostInput = TextInput(text = "Hor. Cost: 10", font_size = self.Height * 0.020, size = (self.Width * 0.25, self.Height*0.05), pos = (0,0), multiline = False)
+			self.DCostInput = TextInput(text = "Diag. Cost: 14", font_size = self.Height * 0.020, size = (self.Width * 0.25, self.Height*0.05), pos = (0,self.Height*0.05), multiline = False)
 			self.add_widget(self.GCostInput)
 			self.add_widget(self.HCostInput)
-			self.GCostInput.bind(text = self.GCostText)
-			self.HCostInput.bind(text = self.HCostText)
-
+			self.add_widget(self.HVCostInput)
+			self.add_widget(self.DCostInput)
+			
 	def ImageByte(self, instance, ImageByte): #used to store image in memory buffer
 		self.Buffer = BytesIO(ImageByte)
 		self.BgIm = CImage(self.Buffer, ext= 'png')
@@ -89,17 +93,6 @@ class Drw(Widget):
 			self.Bg.texture = self.ImageByte(self, self.byte_io.getvalue()).texture
 
 	
-	def GCostText(self,instance, text): #function that handles text input for GCost
-		try:
-			self.GCostMult = int(''.join(filter(str.isdigit, self.GCostInput.text)))
-		except:
-			pass
-		
-	def HCostText(self,instance, text): 
-		try:
-			self.HCostMult = int(''.join(filter(str.isdigit, self.HCostInput.text)))
-		except:
-			pass
 
 	def AddSub(self, instance):
 		self.Im = Image.new("RGB", (self.GWidth, self.GHeight), self.BgColor)  #Function that creates a new frame/Background with more cells
@@ -146,7 +139,14 @@ class Drw(Widget):
 			
 
 	def StartFrame(self, instance): #is called every frame, draws frames
-		self.Frame = drawFrame(self.draw, self.Cells, self.Obstacle, self.Start, self.End, self.Current, self.Open, self.Explored, self.GCostMult, self.HCostMult, self.OpenColor, self.ExpColor) #creates cells
+		try:
+			self.GCostMult = int(''.join(filter(str.isdigit, self.GCostInput.text)))
+			self.HCostMult = int(''.join(filter(str.isdigit, self.HCostInput.text)))
+			self.HVCost = int(''.join(filter(str.isdigit, self.HVCostInput.text)))
+			self.DCost = int(''.join(filter(str.isdigit, self.DCostInput.text)))
+		except:
+			pass
+		self.Frame = drawFrame(self.draw, self.Cells, self.Obstacle, self.Start, self.End, self.Current, self.Open, self.Explored, self.GCostMult, self.HCostMult, self.OpenColor, self.ExpColor, self.HVCost, self.DCost) #creates cells
 		self.Current = list(self.Frame[0]) #current cell 
 		self.save(self)
 		
