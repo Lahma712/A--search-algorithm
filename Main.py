@@ -39,8 +39,9 @@ class Drw(Widget):
 	ObsColor = (210,210, 0)
 	ExpColor = (255,0,255)
 	OpenColor = (100, 0, 100)
-	HVCost = 10
-	DCost = 14
+	HVCost = 10 #horizontal/vertical cost from square to square
+	DCost = 14 #diagonal cost
+	ParentGCost=0
 
 	Im = Image.new("RGB", (GWidth, GHeight), BgColor)
 	byte_io = BytesIO() #buffer for saving images in memory
@@ -131,23 +132,21 @@ class Drw(Widget):
 			self.Startevent.cancel()
 			self.Current = self.Start
 			self.updateFrame(self, 2)
-		except:
-			pass
-		
-		self.Startevent = Clock.schedule_interval(self.StartFrame, 0.001)
-		self.Startevent()
-			
-
-	def StartFrame(self, instance): #is called every frame, draws frames
-		try:
 			self.GCostMult = int(''.join(filter(str.isdigit, self.GCostInput.text)))
 			self.HCostMult = int(''.join(filter(str.isdigit, self.HCostInput.text)))
 			self.HVCost = int(''.join(filter(str.isdigit, self.HVCostInput.text)))
 			self.DCost = int(''.join(filter(str.isdigit, self.DCostInput.text)))
 		except:
 			pass
-		self.Frame = drawFrame(self.draw, self.Cells, self.Obstacle, self.Start, self.End, self.Current, self.Open, self.Explored, self.GCostMult, self.HCostMult, self.OpenColor, self.ExpColor, self.HVCost, self.DCost) #creates cells
+		self.ParentGCost=0
+		self.Startevent = Clock.schedule_interval(self.StartFrame, 0.001)
+		self.Startevent()
+			
+
+	def StartFrame(self, instance): #is called every frame, draws frames
+		self.Frame = drawFrame(self.draw, self.Cells, self.Obstacle, self.Start, self.End, self.Current, self.Open, self.Explored, self.GCostMult, self.HCostMult, self.OpenColor, self.ExpColor, self.HVCost, self.DCost, self.ParentGCost) #creates cells
 		self.Current = list(self.Frame[0]) #current cell 
+		self.ParentGCost = self.Frame[1][0]  
 		self.save(self)
 		
 		if self.Current == self.End: #when the algorithm has found the End node, draw the path
