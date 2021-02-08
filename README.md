@@ -26,23 +26,22 @@ PIL (Python Imaging Library).
 
 You can change a total of 4 parameters which changes the behaviour of the algorithm:
 
--"Hor. Cost" (Horizontal Cost) is the cost of traversing one square horizontally/vertically. This cost is 10 by default.
+-<i>Hor. Cost</i> (Horizontal Cost) is the cost of traversing one square horizontally/vertically. This cost is 10 by default.
 
--"Diag. Cost" (Diagonal Cost) is the cost of traversing one square diagonally. This cost is 14 by default.
+-<i>Diag. Cost</i> (Diagonal Cost) is the cost of traversing one square diagonally. This cost is 14 by default.
 
-With the A* algorithm, each node is assigned 3 values: 
+With the <i>A* algorithm</i>, each node is assigned 3 values: 
 
-F Cost, G Cost and H Cost (where <i>F Cost = G Cost + H Cost),
+<i>F Cost, G Cost and H Cost </i> (where <i>F Cost = G Cost + H Cost</i>),
 
-which are used to determine the next best node. Specifically, "G Cost" is the cost from the current node to the start node and
-"H Cost" is the cost from the current node to the goal node (H Cost is also called the "heuristic function"). This "heuristic function" is what differentiates the 
-"A* search algorithm" from "Dijkstra's algorithm" as it enables A* to go into the direction of the goal node first, which often saves a lot of time.
+which are used to determine the next best node. Specifically, <i>G Cost</i> is the cost from the current node to the start node and
+</i>H Cost</i> is the cost from the current node to the goal node (H Cost is also called the <i>heuristic function</i>). This <i>heuristic function</i> is what differentiates the <i>A* search algorithm</i> from <i>Dijkstra's algorithm</i> as it enables <i>A*</i> to go into the direction of the goal node first, which often saves a lot of time.
 
-With my implementation, the G and H Cost is being multiplied by a value which you can choose. This "multiplier" can change the behaviour of the search algorithm dramatically (see example GIFS below):
+With my implementation, the <i>G Cost</i> and <i>H Cost</i> is being multiplied by a value which you can choose. This "multiplier" can change the behaviour of the search algorithm dramatically (see example GIFS below):
 
--"G Cost Mult." (G Cost Multiplier) is the value by which G Cost is multiplied. This value is 1 by default.
+-<i>G Cost Mult.</i> (G Cost Multiplier) is the value by which <i>G Cost</i> is multiplied. This value is 1 by default.
 
--"H Cost Mult." (H Cost Multiplier) is the value by which H Cost is multiplied. This value is 1 by default.
+-<i>H Cost Mult.</i> (H Cost Multiplier) is the value by which <i>H Cost</i> is multiplied. This value is 1 by default.
 
 
 (for more details see: https://en.wikipedia.org/wiki/A*_search_algorithm, https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm). 
