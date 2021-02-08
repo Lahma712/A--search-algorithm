@@ -37,7 +37,7 @@ With the <i>A* algorithm</i>, each node is assigned 3 values:
 which are used to determine the next best node. Specifically, <i>G Cost</i> is the cost from the current node to the start node and
 <i>H Cost</i> is the cost from the current node to the goal node (<i>H Cost</i> is also called the <i>heuristic function</i>). This <i>heuristic function</i> is what differentiates the <i>A* search algorithm</i> from <i>Dijkstra's algorithm</i> as it enables <i>A*</i> to go into the direction of the goal node first, which often saves a lot of time.
 
-With my implementation, the <i>G Cost</i> and <i>H Cost</i> is being multiplied by a value which you can choose. This "multiplier" can change the behaviour of the search algorithm dramatically (see example GIFS below):
+With my implementation, the <i>G Cost</i> and <i>H Cost</i> is being multiplied by a value which you can choose. This "multiplier" enables the user to change the behaviour of the search algorithm dramatically (see example GIFS below):
 
 -<i>G Cost Mult.</i> (G Cost Multiplier) is the value by which <i>G Cost</i> is multiplied. This value is 1 by default.
 
@@ -54,11 +54,11 @@ This is the standard configuration, which is the classic <i>A* search algorithm<
 <img src="https://media.giphy.com/media/dt1TPJXvb2JPLClRW8/giphy.gif" width = 400/> 
 
 
-By setting the <i>H Cost</i> to 0, you remove the heuristic function which effectively changes the <i>A* algorithm</i> to <i>Dijkstra's algorithm</i>:
+By setting the <i>H Cost</i> multiplier to 0, you remove the heuristic function which effectively changes the <i>A* algorithm</i> to <i>Dijkstra's algorithm</i>:
 
 <img src="https://media.giphy.com/media/3FfMXksqi4QBYEbTIZ/giphy.gif" width = 400/>
 
-You can also set the <i>G Cost</i> to 0, which means the algorithm always tries to go into the direction of the goal node first:
+You can also set the <i>G Cost</i> multiplier to 0, which means the algorithm always tries to go into the direction of the goal node first:
 
 <img src="https://media.giphy.com/media/Ql0euJ6RWwriRUiWMz/giphy.gif" width = 400/>
 
