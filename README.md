@@ -64,7 +64,7 @@ You can also set the <i>G Cost</i> multiplier to 0, which means the algorithm al
 
 <img src="https://media.giphy.com/media/Ql0euJ6RWwriRUiWMz/giphy.gif" width = 400/>
 
-You can play around with the <i>G</i> and <i>H Cost</i> multipliers. By increasing the <i>G Cost</i> multiplier, the algorithm stays longer around the start node.
+You can play around with the <i>G</i> and <i>H Cost</i> multipliers. By increasing the <i>G Cost</i> multiplier, the algorithm stays longer around the starting node.
 By increasing the <i>H Cost</i> multiplier, the algorithm goes faster into the direction of the goal node:
 
 <img src="https://media.giphy.com/media/pCfpHKxsHeUai3IU6k/giphy.gif" width = 400/> 
