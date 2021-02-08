@@ -73,6 +73,7 @@ the shortest path:
 <img src="https://media.giphy.com/media/86pEw8wj5dIfVvaWoN/giphy.gif" width = 400/> <img src="https://media.giphy.com/media/dDaaGqUDDR8gNq77NJ/giphy.gif" width = 400/>
 <img src="https://media.giphy.com/media/PFOvIveyaW8gyEvKuE/giphy.gif" width = 400/>
 
+Note: framerate/quality loss due to GIF conversion 
 
 # <b>Dependencies: </b>
 
