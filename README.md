@@ -7,15 +7,15 @@ PIL (Python Imaging Library).
 
 -Execute <b>Main.py</b>
 
--The red/green squares represent the starting/goal nodes respectively
+-The red/green squares represent the starting/goal node respectively
 
--You can move the starting/goal nodes by clicking on them and then clicking on a new square
+-You can move the starting/goal node by clicking on it and then clicking on some desired square (where you want to move the node to)
 
 -You can draw obstacles (in yellow) by clicking and moving your mouse cursor
 
--You can erase one obstacle square by clicking on it again
+-You can erase a drawn obstacle square by clicking on it again
 
--To start the algorithm, click on "Start"
+-To start the algorithm, click on the "Start" button
 
 -Clicking on "Clear" once erases the path drawn by the algorithm
 
