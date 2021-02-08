@@ -17,7 +17,7 @@ PIL (Python Imaging Library).
 
 -To start the algorithm, click on "Start"
 
--Clicking on "Clear" once, erases the path drawn by the algorithm
+-Clicking on "Clear" once erases the path drawn by the algorithm
 
 -Clicking on "Clear" a second time also erases the obstacles
 
