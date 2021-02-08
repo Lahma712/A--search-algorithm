@@ -7,9 +7,9 @@ PIL (Python Imaging Library).
 
 -Execute <b>Main.py</b>
 
--The red/green squares represent the start/goal nodes respectively
+-The red/green squares represent the starting/goal nodes respectively
 
--You can move the start/goal nodes by clicking on them and then clicking on a new square
+-You can move the starting/goal nodes by clicking on them and then clicking on a new square
 
 -You can draw obstacles (in yellow) by clicking and moving your mouse cursor
 
@@ -34,7 +34,7 @@ With the <i>A* algorithm</i>, each node is assigned 3 values:
 
 <i>F Cost, G Cost and H Cost </i> (where <i>F Cost = G Cost + H Cost</i>),
 
-which are used to determine the next best node. Specifically, <i>G Cost</i> is the cost from the current node to the start node and
+which are used to determine the next best node. Specifically, <i>G Cost</i> is the cost from the current node to the starting node and
 <i>H Cost</i> is the cost from the current node to the goal node (<i>H Cost</i> is also called the <i>heuristic function</i>). This <i>heuristic function</i> is what differentiates the <i>A* search algorithm</i> from <i>Dijkstra's algorithm</i> as it enables <i>A*</i> to give preference to nodes that are closer to the goal node, which often saves a lot of time.
 
 One unique feature of my implementation is that the <i>G Cost</i> and <i>H Cost</i> is always being multiplied by some value, which you can choose. This "multiplier" enables the user to change the behaviour of the search algorithm dramatically (see example GIFS below):
