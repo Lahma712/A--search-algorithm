@@ -73,4 +73,8 @@ the shortest path:
 <img src="https://media.giphy.com/media/PFOvIveyaW8gyEvKuE/giphy.gif" width = 400/>
 
 
+# <b>Dependencies: </b>
 
+-Python
+-Kivy 2.0.0
+-PIL (Python Imaging Library)
