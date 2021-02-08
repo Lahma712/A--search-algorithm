@@ -32,7 +32,7 @@ You can change a total of 4 parameters which changes the behaviour of the algori
 
 With the A* algorithm, each node is assigned 3 values: 
 
-F Cost, G Cost and H Cost (where F Cost = G Cost + H Cost),
+F Cost, G Cost and H Cost (where <i>F Cost = G Cost + H Cost),
 
 which are used to determine the next best node. Specifically, "G Cost" is the cost from the current node to the start node and
 "H Cost" is the cost from the current node to the goal node (H Cost is also called the "heuristic function"). This "heuristic function" is what differentiates the 
