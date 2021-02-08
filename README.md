@@ -1,7 +1,7 @@
 # Pathfinding-Algorithm
 
-This is my Python implementation of the A* pathfinding algorithm. The application is written in Python using the Kivy GUI library and 
-PIL (Python Imaging Library). 
+This is my Python implementation of the A* pathfinding algorithm. The application is written in Python using the <i>Kivy</i> as well as 
+<i>PIL</i> (Python Imaging Library) for the GUI. 
 
 # <b>How to use: </b>
 
