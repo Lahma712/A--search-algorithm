@@ -75,6 +75,6 @@ the shortest path:
 
 # <b>Dependencies: </b>
 
--Python
+-Python 3.8
 -Kivy 2.0.0
 -PIL (Python Imaging Library)
