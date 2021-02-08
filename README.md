@@ -21,6 +21,8 @@ PIL (Python Imaging Library).
 
 -Clicking on "Clear" a second time also erases the obstacles
 
+-Zoom in/out by clicking on the +/- buttons
+
 
 # <b>Parameters: </b>
 
