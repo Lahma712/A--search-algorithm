@@ -3,7 +3,9 @@
 This is my Python implementation of the A* pathfinding algorithm. The application is written in Python using the Kivy GUI library and 
 PIL (Python Imaging Library). 
 
-<b>How to use: </b>
+# <b>How to use: </b>
+
+-Execute <b>Main.py</b>
 
 -The red/green squares represent the start/goal nodes respectively
 
@@ -20,7 +22,7 @@ PIL (Python Imaging Library).
 -Clicking on "Clear" a second time also erases the obstacles
 
 
-<b>Parameters: </b>
+# <b>Parameters: </b>
 
 You can change a total of 4 parameters which changes the behaviour of the algorithm:
 
@@ -46,7 +48,7 @@ With my implementation, the G and H Cost is being multiplied by a value which yo
 (for more details see: https://en.wikipedia.org/wiki/A*_search_algorithm, https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm). 
 
 
-<b>Examples: </b>
+# <b>Examples: </b>
 
 This is the standard configuration, which is the classic A* search algorithm:
 
