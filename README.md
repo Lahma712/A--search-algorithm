@@ -26,9 +26,9 @@ PIL (Python Imaging Library).
 
 You can change a total of 4 parameters which changes the behaviour of the algorithm:
 
--<i>Hor. Cost</i> (Horizontal Cost) is the cost of traversing one square horizontally/vertically. This cost is 10 by default.
+-The <i>Horizontal Cost</i> is the cost of traversing one square horizontally/vertically. This cost is 10 by default.
 
--<i>Diag. Cost</i> (Diagonal Cost) is the cost of traversing one square diagonally. This cost is 14 by default.
+-The <i>Diagonal Cost</i> is the cost of traversing one square diagonally. This cost is 14 by default. 
 
 With the <i>A* algorithm</i>, each node is assigned 3 values: 
 
@@ -39,9 +39,9 @@ which are used to determine the next best node. Specifically, <i>G Cost</i> is t
 
 One unique feature of my implementation is that the <i>G Cost</i> and <i>H Cost</i> is always being multiplied by some value, which you can choose. This "multiplier" enables the user to change the behaviour of the search algorithm dramatically (see example GIFS below):
 
--<i>G Cost Mult.</i> (G Cost Multiplier) is the value by which <i>G Cost</i> is multiplied. This value is 1 by default.
+-The <i>G Cost Multiplier</i> is the value by which <i>G Cost</i> is multiplied. This value is 1 by default.
 
--<i>H Cost Mult.</i> (H Cost Multiplier) is the value by which <i>H Cost</i> is multiplied. This value is 1 by default.
+-The <i>H Cost Multiplier</i> is the value by which <i>H Cost</i> is multiplied. This value is 1 by default.
 
 
 (for more details see: https://en.wikipedia.org/wiki/A*_search_algorithm, https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm). 
