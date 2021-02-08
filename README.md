@@ -7,21 +7,21 @@ This is my Python implementation of the A* pathfinding algorithm. The applicatio
 
 -Execute <b>Main.py</b>
 
--The red/green squares represent the starting/goal node respectively
+-The red/green squares represent the starting/goal node respectively.
 
--You can move the starting/goal node by clicking on it and then clicking on some desired square (where you want to move the node to)
+-You can move the starting/goal node by clicking on it and then clicking on some desired square (where you want to move the node to).
 
--You can draw obstacles (in yellow) by clicking and moving your mouse cursor
+-You can use the mouse cursor to draw obstacles onto the grid (in yellow).
 
--You can erase a drawn obstacle square by clicking on it again
+-You can erase a drawn obstacle square by clicking on it again.
 
--To start the algorithm, click on the "Start" button
+-To start the algorithm, click on the "Start" button.
 
--Clicking on "Clear" once erases the path drawn by the algorithm
+-Clicking on "Clear" once erases the path drawn by the algorithm.
 
--Clicking on "Clear" a second time also erases the obstacles
+-Clicking on "Clear" a second time also erases the obstacles.
 
--Zoom in/out by clicking on the +/- buttons
+-Zoom in/out by clicking on the +/- buttons.
 
 
 # <b>Parameters: </b>
