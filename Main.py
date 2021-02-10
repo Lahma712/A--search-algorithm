@@ -8,6 +8,7 @@ from kivy.uix.textinput import TextInput
 from kivy.core.image import Image as CImage
 from kivy.uix.image import Image as BgImage
 from kivy.clock import Clock
+from kivy.uix.togglebutton import ToggleButton
 from Grid import Grid
 from Algorithm import Cells, drawFrame, drawPath, drawCell
 import math
@@ -18,11 +19,9 @@ kivy.require("2.0.0")
 class Drw(Widget):
 	Width = 500 
 	Height = 500 
-	GCostMult = 1 #G Cost multiplier
-	HCostMult = 1 #H Cost multiplier
 	Window.size = (Width, Height)
 	GWidth = int(Width) 
-	GHeight = int(Height * 0.9) #grid height is a little bit shorter than the full window size because of the buttons 
+	GHeight = int(Height * 0.88) #grid height is a little bit shorter than the full window size because of the buttons 
 	Obstacle = [] #holds obstacle cells of the frame in form of columns/rows. 2D list e.g [[0,0], [4,5], .... , [column, row]]
 	Explored = {} #holds explored cells of the frame in form of 2D list (same as Obstacle)
 	Open = {} #holds dictionary of open cells with their GCost, HCost, FCost and parent e.g. {(0,0): [GCost, HCost, FCost, [parent]], (1,0): ...}
@@ -40,8 +39,9 @@ class Drw(Widget):
 	ObsColor = (210,210, 0)
 	ExpColor = (255,0,255)
 	OpenColor = (100, 0, 100)
-	HVCost = 10 #horizontal/vertical cost from square to square
-	DCost = 14 #diagonal cost
+	Eucl = 0
+	Manh = 1
+	Cheby = 0 
 	ParentGCost=0
 	HWeight = 1
 
@@ -54,11 +54,11 @@ class Drw(Widget):
 		self.CellCount = 50
 		with self.canvas:
 			self.check = False
-			self.Bg = BgImage(pos=(0, self.Height * 0.1), size = (self.GWidth, self.GHeight)) #background image 
+			self.Bg = BgImage(pos=(0, self.Height * 0.12), size = (self.GWidth, self.GHeight)) #background image 
 			self.updateFrame(self, 1)
 			
-			self.add = Button(text = "-", font_size =self.Height*0.05, size= (self.Width * 0.25, self.Height*0.05), pos = (self.Width *0.5, 0))
-			self.sub = Button(text="+", font_size=self.Height*0.05, size= (self.Width * 0.25, self.Height*0.05), pos=(self.Width *0.5, self.Height * 0.05))
+			self.add = Button(text = "-", font_size =self.Height*0.05, size= (self.Width * 0.25, self.Height*0.06), pos = (self.Width *0.5, 0))
+			self.sub = Button(text="+", font_size=self.Height*0.05, size= (self.Width * 0.25, self.Height*0.06), pos=(self.Width *0.5, self.Height * 0.06))
 			self.add.bind(on_press= self.AddClock)
 			self.add.bind(on_release = self.ClockCancel)
 			self.sub.bind(on_press = self.SubClock)
@@ -66,23 +66,48 @@ class Drw(Widget):
 			self.add_widget(self.sub)
 			self.add_widget(self.add)
 
-			self.start = Button(text="start", font_size=self.Height*0.05, size = (self.Width * 0.125, self.Height*0.10), pos=(self.Width*0.875, 0))
+			self.start = Button(text="start", font_size=self.Height*0.05, size = (self.Width * 0.125, self.Height*0.12), pos=(self.Width*0.875, 0))
 			self.start.bind(on_press = self.StartClock)
 			self.add_widget(self.start)
 
-			self.clear = Button(text="clear", font_size=self.Height*0.05, size = (self.Width * 0.125, self.Height*0.10), pos =(self.Width*0.75, 0))
+			self.clear = Button(text="clear", font_size=self.Height*0.05, size = (self.Width * 0.125, self.Height*0.12), pos =(self.Width*0.75, 0))
 			self.clear.bind(on_press = self.Clear)
 			self.add_widget(self.clear)
 
 			
-			self.Text3 = Label(text= "Heuristic Weight", pos = (self.Width*0.25, self.Height*0.05), size = (self.Width*0.25, self.Height*0.05))
-			self.HWeightInput = TextInput(text = "1.0", font_size = self.Height * 0.020, size = (self.Width * 0.25, self.Height*0.05), pos = (self.Width * 0.25, 0), multiline = False)
-			self.HVCostInput = TextInput(text = "Hor. Cost: 10", font_size = self.Height * 0.020, size = (self.Width * 0.25, self.Height*0.05), pos = (0,0), multiline = False)
-			self.DCostInput = TextInput(text = "Diag. Cost: 14", font_size = self.Height * 0.020, size = (self.Width * 0.25, self.Height*0.05), pos = (0,self.Height*0.05), multiline = False)
-			
+			self.Text3 = Label(text= "Heuristic Weight", pos = (self.Width*0.25, self.Height*0.06), size = (self.Width*0.25, self.Height*0.06))
+			self.HWeightInput = TextInput(text = "1.0", font_size = self.Height * 0.03, size = (self.Width * 0.25, self.Height*0.06), pos = (self.Width * 0.25, 0), multiline = False)
+			self.EuclBox = ToggleButton(group = "distance", text = "Euclidean", pos = (0,self.Height*0.08), size = (self.Width * 0.25, self.Height *0.04))
+			self.ManhBox = ToggleButton(group = "distance", text = "Manhattan", pos= (0,self.Height*0.04), size = (self.Width * 0.25, self.Height *0.04))
+			self.ChebyBox = ToggleButton(group = "distance", text = "Chebyshev", pos= (0,0), size = (self.Width * 0.25, self.Height *0.04))
 			self.add_widget(self.HWeightInput)
-			self.add_widget(self.HVCostInput)
-			self.add_widget(self.DCostInput)
+			self.add_widget(self.EuclBox)
+			self.add_widget(self.ManhBox)
+			self.add_widget(self.ChebyBox)
+
+			self.EuclBox.bind(on_press = self.toggle)
+			self.ManhBox.bind(on_press = self.toggle)
+			self.ChebyBox.bind(on_press = self.toggle)
+
+			
+
+	def toggle(self, instance):
+		if self.EuclBox.state == "down":
+			self.Eucl = 1
+			self.Manh = 0
+			self.Cheby = 0
+		elif self.ManhBox.state == "down":
+			self.Eucl = 0
+			self.Manh = 1
+			self.Cheby = 0
+		else:
+			self.Eucl = 0
+			self.Manh = 0
+			self.Cheby = 1
+
+
+
+			
 			
 	def ImageByte(self, instance, ImageByte): #used to store image in memory buffer
 		self.Buffer = BytesIO(ImageByte)
@@ -135,19 +160,20 @@ class Drw(Widget):
 			self.Startevent.cancel()
 			self.Current = self.Start
 			self.updateFrame(self, 2)
-			
 			self.HWeight = float(self.HWeightInput.text)
-			self.HVCost = int(''.join(filter(str.isdigit, self.HVCostInput.text)))
-			self.DCost = int(''.join(filter(str.isdigit, self.DCostInput.text)))
+			
 		except:
 			pass
-		self.ParentGCost=0
-		self.Startevent = Clock.schedule_interval(self.StartFrame, 0.001)
-		self.Startevent()
+		try:
+			self.ParentGCost=0
+			self.Startevent = Clock.schedule_interval(self.StartFrame, 0.001)
+			self.Startevent()
+		except:
+			pass
 			
 
 	def StartFrame(self, instance): #is called every frame, draws frames
-		self.Frame = drawFrame(self.draw, self.Cells, self.Obstacle, self.Start, self.End, self.Current, self.Open, self.Explored, self.HWeight, self.OpenColor, self.ExpColor, self.HVCost, self.DCost, self.ParentGCost) #creates cells
+		self.Frame = drawFrame(self.draw, self.Start, self.End, self.Cells, self.Obstacle, self.Current, self.Open, self.Explored, self.HWeight, self.OpenColor, self.ExpColor, self.Eucl, self.Manh, self.Cheby, self.ParentGCost) #creates cells
 		self.Current = list(self.Frame[0]) #current cell 
 		self.ParentGCost = self.Frame[1][0]  
 		self.save(self)
@@ -161,7 +187,7 @@ class Drw(Widget):
 				self.check = False
 			
 			drawCell(self.Cells[0][self.End[0]],self.Cells[1][self.End[1]], self.PathColor, self.draw)
-
+			print("\nTotal cost of path: " + str(self.ParentGCost))
 			self.save(self)
 			self.Startevent.cancel()
 
@@ -171,15 +197,17 @@ class Drw(Widget):
 			self.Startevent.cancel()
 		except:
 			pass
+		try:
+			if self.x == 0:
+				self.updateFrame(self, 2)
+				self.x +=1
 
-		if self.x == 0:
-			self.updateFrame(self, 2)
-			self.x +=1
-
-		elif self.x == 1:
-			self.updateFrame(self,3)
+			elif self.x == 1:
+				self.updateFrame(self,3)
 			
-		self.Current = self.Start #reset node to start node
+			self.Current = self.Start  #reset node to start node
+		except:
+			pass
 		return
 
 
