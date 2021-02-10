@@ -1,4 +1,3 @@
-
 def Cells(HGrid, VGrid): #function that creates dataset of the XY coords of every cell
 	def cells(grid, Cells):
 		for x in range(len(grid)-1):
@@ -22,7 +21,6 @@ def distance(x, y, HVCost, DCost): #calculates distance from current node to sta
 	a=x[:]
 	b=y[:]
 	
-
 	if a[0] == b[0]:
 		return abs(a[1]-b[1]) * HVCost
 	elif a[1] == b[1]:
@@ -67,33 +65,35 @@ def distance(x, y, HVCost, DCost): #calculates distance from current node to sta
 			return abs(a[1]-b[1]) * HVCost + diag
 		elif b[1] == a[1]:
 			return abs(a[0]-b[0]) * HVCost + diag
+	
 
-
-def cost(Cell, Start, End, GCostMult, HCostMult, HVCost, DCost, ParentGCost, NewGCost):#calculates cost based on distance
-	GCost = ParentGCost + (NewGCost * GCostMult)
-	HCost = distance(End, Cell, HVCost, DCost) * HCostMult
+def cost(Cell, Start, End, HWeight, HVCost, DCost, ParentGCost, NewGCost):#calculates cost based on distance
+	GCost = ParentGCost + NewGCost 
+	HCost = distance(End, Cell, HVCost, DCost) * HWeight
 	return GCost, HCost, GCost + HCost
 
 
-def OpenDictionary(Open, OpenKey, Start, End, parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor, HVCost, DCost, ParentGCost, NewGCost): #adds cell to Open dictionary
-	if tuple(OpenKey) not in Open and ((OpenKey[0] > -1 and OpenKey[1] > -1) and (OpenKey[0] < len(Cells[0]) and OpenKey[1] < len(Cells[1]))) and (OpenKey not in Obstacle) and (OpenKey != Start) and (tuple(OpenKey) not in Explored):
-		
-		Open[tuple(OpenKey)] = list(cost(OpenKey, Start, End, GCostMult, HCostMult, HVCost, DCost, ParentGCost, NewGCost)) + [parent]
+def OpenDictionary(Open, OpenKey, Start, End, parent, Cells, Obstacle, Explored, draw, HWeight, OpenColor, HVCost, DCost, ParentGCost, NewGCost): #adds cell to Open dictionary
+	if ((OpenKey[0] > -1 and OpenKey[1] > -1) and (OpenKey[0] < len(Cells[0]) and OpenKey[1] < len(Cells[1]))) and (OpenKey not in Obstacle) and (OpenKey != Start) and (tuple(OpenKey) not in Explored):
+		costs = list(cost(OpenKey, Start, End, HWeight, HVCost, DCost, ParentGCost, NewGCost)) + [parent]
+		if tuple(OpenKey) in Open and Open[tuple(OpenKey)][0] > costs[0]: #looks if a current parent cell gives a shorter path for existing open cell, gets updated if yes.
+			Open[tuple(OpenKey)] = costs
+		elif tuple(OpenKey) not in Open:
+			Open[tuple(OpenKey)] = costs
 		drawCell(Cells[0][OpenKey[0]], Cells[1][OpenKey[1]], OpenColor, draw)
 	return Open
 
-def drawFrame(draw, Cells, Obstacle, Start, End, Parent, Open, Explored, GCostMult, HCostMult, OpenColor, ExpColor, HVCost, DCost, ParentGCost):
-	OpenDictionary(Open, [Parent[0]+1, Parent[1]], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor, HVCost, DCost,ParentGCost, HVCost)
-	OpenDictionary(Open, [Parent[0], Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor, HVCost, DCost,ParentGCost, HVCost)
-	OpenDictionary(Open, [Parent[0]+1, Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, draw,GCostMult, HCostMult, OpenColor, HVCost, DCost,ParentGCost, DCost)
-	OpenDictionary(Open, [Parent[0]-1, Parent[1]], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor, HVCost, DCost,ParentGCost, HVCost)
-	OpenDictionary(Open, [Parent[0], Parent[1]-1], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor, HVCost, DCost,ParentGCost, HVCost)
-	OpenDictionary(Open, [Parent[0]-1, Parent[1]-1], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor, HVCost, DCost,ParentGCost, DCost)
-	OpenDictionary(Open, [Parent[0]-1, Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor, HVCost, DCost,ParentGCost, DCost)
-	OpenDictionary(Open, [Parent[0]+1, Parent[1]-1], Start, End, Parent, Cells, Obstacle, Explored, draw, GCostMult, HCostMult, OpenColor,HVCost, DCost,ParentGCost, DCost)
+def drawFrame(draw, Cells, Obstacle, Start, End, Parent, Open, Explored, HWeight, OpenColor, ExpColor, HVCost, DCost, ParentGCost):
+	OpenDictionary(Open, [Parent[0]+1, Parent[1]], Start, End, Parent, Cells, Obstacle, Explored, draw, HWeight, OpenColor, HVCost, DCost,ParentGCost, HVCost)
+	OpenDictionary(Open, [Parent[0], Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, draw, HWeight, OpenColor, HVCost, DCost,ParentGCost, HVCost)
+	OpenDictionary(Open, [Parent[0]+1, Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, draw,HWeight, OpenColor, HVCost, DCost,ParentGCost, DCost)
+	OpenDictionary(Open, [Parent[0]-1, Parent[1]], Start, End, Parent, Cells, Obstacle, Explored, draw, HWeight, OpenColor, HVCost, DCost,ParentGCost, HVCost)
+	OpenDictionary(Open, [Parent[0], Parent[1]-1], Start, End, Parent, Cells, Obstacle, Explored, draw, HWeight, OpenColor, HVCost, DCost,ParentGCost, HVCost)
+	OpenDictionary(Open, [Parent[0]-1, Parent[1]-1], Start, End, Parent, Cells, Obstacle, Explored, draw, HWeight, OpenColor, HVCost, DCost,ParentGCost, DCost)
+	OpenDictionary(Open, [Parent[0]-1, Parent[1]+1], Start, End, Parent, Cells, Obstacle, Explored, draw, HWeight, OpenColor, HVCost, DCost,ParentGCost, DCost)
+	OpenDictionary(Open, [Parent[0]+1, Parent[1]-1], Start, End, Parent, Cells, Obstacle, Explored, draw, HWeight, OpenColor,HVCost, DCost,ParentGCost, DCost)
 	
-	
-	minFCost = 99999999
+	minFCost = float('inf')
 	nextCell = 0
 	for item in Open.items():  #finds next cell based on lowest F Cost
 		if item[1][2] < minFCost:
@@ -104,6 +104,7 @@ def drawFrame(draw, Cells, Obstacle, Start, End, Parent, Open, Explored, GCostMu
 	Explored[nextCell[0]] = list(nextCell[1])
 	drawCell(Cells[0][nextCell[0][0]], Cells[1][nextCell[0][1]], ExpColor, draw)
 	del Open[nextCell[0]]
+	
 	return nextCell
 
 def drawPath(draw, Cells, Explored, End, color): #retraces path through parents 
@@ -111,9 +112,3 @@ def drawPath(draw, Cells, Explored, End, color): #retraces path through parents
 		drawCell(Cells[0][Explored[tuple(End)][3][0]], Cells[1][Explored[tuple(End)][3][1]], color, draw)
 		
 		return list(Explored[tuple(End)][3])
-
-
-
-
-
-

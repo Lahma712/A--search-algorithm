@@ -1,6 +1,7 @@
 import kivy
 from kivy.app import App
 from kivy.uix.widget import Widget
+from kivy.uix.label import Label
 from kivy.uix.button import Button
 from kivy.core.window import Window
 from kivy.uix.textinput import TextInput
@@ -42,6 +43,7 @@ class Drw(Widget):
 	HVCost = 10 #horizontal/vertical cost from square to square
 	DCost = 14 #diagonal cost
 	ParentGCost=0
+	HWeight = 1
 
 	Im = Image.new("RGB", (GWidth, GHeight), BgColor)
 	byte_io = BytesIO() #buffer for saving images in memory
@@ -68,16 +70,17 @@ class Drw(Widget):
 			self.start.bind(on_press = self.StartClock)
 			self.add_widget(self.start)
 
-			self.clear = Button(text="clear", font_size=self.Height*0.05, size = (self.Width *0.125, self.Height*0.10), pos =(self.Width*0.75, 0))
+			self.clear = Button(text="clear", font_size=self.Height*0.05, size = (self.Width * 0.125, self.Height*0.10), pos =(self.Width*0.75, 0))
 			self.clear.bind(on_press = self.Clear)
 			self.add_widget(self.clear)
 
-			self.GCostInput = TextInput(text = "G Cost Mult.: 1", font_size = self.Height * 0.020, size = (self.Width * 0.25, self.Height*0.05), pos = (self.Width * 0.25,0), multiline = False)
-			self.HCostInput = TextInput(text = "H Cost Mult.: 1", font_size = self.Height * 0.020, size = (self.Width * 0.25, self.Height*0.05), pos = (self.Width * 0.25,self.Height*0.05), multiline = False)
+			
+			self.Text3 = Label(text= "Heuristic Weight", pos = (self.Width*0.25, self.Height*0.05), size = (self.Width*0.25, self.Height*0.05))
+			self.HWeightInput = TextInput(text = "1.0", font_size = self.Height * 0.020, size = (self.Width * 0.25, self.Height*0.05), pos = (self.Width * 0.25, 0), multiline = False)
 			self.HVCostInput = TextInput(text = "Hor. Cost: 10", font_size = self.Height * 0.020, size = (self.Width * 0.25, self.Height*0.05), pos = (0,0), multiline = False)
 			self.DCostInput = TextInput(text = "Diag. Cost: 14", font_size = self.Height * 0.020, size = (self.Width * 0.25, self.Height*0.05), pos = (0,self.Height*0.05), multiline = False)
-			self.add_widget(self.GCostInput)
-			self.add_widget(self.HCostInput)
+			
+			self.add_widget(self.HWeightInput)
 			self.add_widget(self.HVCostInput)
 			self.add_widget(self.DCostInput)
 			
@@ -132,8 +135,8 @@ class Drw(Widget):
 			self.Startevent.cancel()
 			self.Current = self.Start
 			self.updateFrame(self, 2)
-			self.GCostMult = int(''.join(filter(str.isdigit, self.GCostInput.text)))
-			self.HCostMult = int(''.join(filter(str.isdigit, self.HCostInput.text)))
+			
+			self.HWeight = float(self.HWeightInput.text)
 			self.HVCost = int(''.join(filter(str.isdigit, self.HVCostInput.text)))
 			self.DCost = int(''.join(filter(str.isdigit, self.DCostInput.text)))
 		except:
@@ -144,7 +147,7 @@ class Drw(Widget):
 			
 
 	def StartFrame(self, instance): #is called every frame, draws frames
-		self.Frame = drawFrame(self.draw, self.Cells, self.Obstacle, self.Start, self.End, self.Current, self.Open, self.Explored, self.GCostMult, self.HCostMult, self.OpenColor, self.ExpColor, self.HVCost, self.DCost, self.ParentGCost) #creates cells
+		self.Frame = drawFrame(self.draw, self.Cells, self.Obstacle, self.Start, self.End, self.Current, self.Open, self.Explored, self.HWeight, self.OpenColor, self.ExpColor, self.HVCost, self.DCost, self.ParentGCost) #creates cells
 		self.Current = list(self.Frame[0]) #current cell 
 		self.ParentGCost = self.Frame[1][0]  
 		self.save(self)
@@ -156,7 +159,7 @@ class Drw(Widget):
 			while self.Current != self.Start: #retraces the path back to the start node
 				self.Current = drawPath(self.draw, self.Cells, self.Explored, self.Current, self.PathColor)
 				self.check = False
-
+			
 			drawCell(self.Cells[0][self.End[0]],self.Cells[1][self.End[1]], self.PathColor, self.draw)
 
 			self.save(self)
@@ -296,4 +299,3 @@ class AStar(App):
 
 if __name__ == "__main__":
 	AStar().run()
-	
