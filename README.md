@@ -14,6 +14,7 @@ This is my Python implementation of the A* pathfinding algorithm. The applicatio
 - Clicking on "Clear" once erases the path drawn by the algorithm.
 - Clicking on "Clear" a second time also erases the obstacles.
 - Zoom in/out by clicking on the +/- buttons.
+- After the path has been traced, the total cost is printed in the terminal.
 
 
 # <b>How it works: </b>
@@ -46,7 +47,8 @@ One unique feature of my implementation is that the <i>H Cost</i> is always bein
 
 # <b>Examples: </b>
 
-This is the standard configuration, which is the classic <i>A* search algorithm</i>. The <i>heuristic weight</i> is set to 1.
+- This is the standard configuration, which is the classic <i>A* search algorithm</i>. The <i>heuristic weight</i> is set to 1. With this heuristic, the shortest path
+will always be found.
 You can also choose from 3 distance metrics: <i>Euclidean</i>, <i>Manhatten</i> and <i>Chebyshev</i>. 
 
 <b><i>Euclidean:</i></b>
@@ -68,11 +70,11 @@ You can also choose from 3 distance metrics: <i>Euclidean</i>, <i>Manhatten</i> 
 <img src="https://media.giphy.com/media/iVC1VIJdMpScqgbfkO/giphy.gif" width = 400/>
 
 
-By setting the <i>heuristic weight</i> to 0, you remove the heuristic function which effectively reverts the <i>A* algorithm</i> to the <i>Dijkstra's algorithm</i>:
+- By setting the <i>heuristic weight</i> to 0, you remove the heuristic function which effectively reverts the <i>A* algorithm</i> to the <i>Dijkstra's algorithm</i>. <i>Dijkstra's algorithm</i> will always find the shortest path:
 
 <img src="https://media.giphy.com/media/h9PdmF5V5LHIpvKEHh/giphy.gif" width = 400/>
 
-You can also set the <i>G Cost</i> multiplier to 0, which means the algorithm always tries to go into the direction of the goal node first, no matter what:
+- By increasing the <i>heuristic weight</i>, the algorithm effectively gives more preference to nodes that make it go into the direction of the goal node. Effectively, the algorithm will spend less time exploring other directions which will make it find a possible path in a shorter amount of time, however it may not be the shortest path that exists. This behaviour will become apparent when you set the <i>heuristic weight > 1</i>:
 
 <img src="https://media.giphy.com/media/Ql0euJ6RWwriRUiWMz/giphy.gif" width = 400/>
 
