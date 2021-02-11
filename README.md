@@ -95,7 +95,7 @@ We can draw a general conclusion from this:
 
 
 
-# Practical example:
+# <b>Practical example:</b>
 
 This is a labyrinth that I drew. 
 The respective costs are <b>1060</b> (weight: <b>1.0</b>), <b>1142</b> (weight: <b>10.0</b>) and <b>1388</b> (weight: <b>100.0</b>):
@@ -113,3 +113,14 @@ Note: framerate/quality loss due to GIF conversion
 -Kivy 2.0.0
 
 -PIL (Python Imaging Library)
+
+# <b>Sources:</b>
+- https://en.wikipedia.org/wiki/A*_search_algorithm
+- https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
+- https://www.youtube.com/watch?v=-L-WgKMFuhE
+- http://theory.stanford.edu/~amitp/GameProgramming/Heuristics.html
+- https://qiao.github.io/PathFinding.js/visual/
+- https://www.redblobgames.com/pathfinding/a-star/introduction.html
+- https://wikimedia.org/api/rest_v1/media/math/render/svg/02436c34fc9562eb170e2e2cfddbb3303075b28e
+-https://wikimedia.org/api/rest_v1/media/math/render/svg/02436c34fc9562eb170e2e2cfddbb3303075b28e
+-https://wikimedia.org/api/rest_v1/media/math/render/svg/1e41856e4c8dfd7e69948b55735d4464113b9e7e
