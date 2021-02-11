@@ -86,10 +86,13 @@ Below is the evolution of the algorithm with <i>heuristic weights</i> <b>0, 0.2,
 
 One can see that when the weight is <b>10</b>, the path is clearly
 not the shortest one that exists. This is confirmed by looking at the terminal where the total cost is being printed. For weights <b>0, 0.2, 0.8, 1, 1.2 and 1.5</b> the cost is 
-<b>232</b>, however for weight <b>10</b> the cost is <b>256</b>.
+<b>232</b>, however for weight <b>10</b>, the cost is <b>256</b>. While the path is more expensive, it is found faster than the others.
 
-You can play around with the <i>G</i> and <i>H Cost</i> multipliers. By increasing the <i>G Cost</i> multiplier, the algorithm stays longer around the starting node.
-By increasing the <i>H Cost</i> multiplier, the algorithm goes faster into the direction of the goal node:
+We can draw a general conclusion from this:
+
+- The smaller the weight of the heuristic function, the longer the algorithm searches BUT the path will probably be cheaper
+- The bigger the weight of the heuristic function, the faster the algorithm finds a valid path BUT that path will probably be more expensive
+
 
 <img src="https://media.giphy.com/media/pCfpHKxsHeUai3IU6k/giphy.gif" width = 400/> 
 
