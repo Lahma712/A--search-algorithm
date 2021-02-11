@@ -5,45 +5,50 @@ This is my Python implementation of the A* pathfinding algorithm. The applicatio
 
 # <b>How to use: </b>
 
--Execute <b>Main.py</b>
+- Execute <b>Main.py</b>
 
--The red/green squares represent the starting/goal node respectively.
+- The red/green squares represent the starting/goal node respectively.
 
--You can move the starting/goal node by clicking on it and then clicking on some desired square (where you want to move the node to).
+- You can move the starting/goal node by clicking on it and then clicking on some desired square (where you want to move the node to).
 
--You can use the mouse cursor to draw obstacles onto the grid (in yellow).
+- You can use the mouse cursor to draw obstacles onto the grid (in yellow).
 
--You can erase a drawn obstacle square by clicking on it again.
+- You can erase a drawn obstacle square by clicking on it again.
 
--To start the algorithm, click on the "Start" button.
+- To start the algorithm, click on the "Start" button.
 
--Clicking on "Clear" once erases the path drawn by the algorithm.
+- Clicking on "Clear" once erases the path drawn by the algorithm.
 
--Clicking on "Clear" a second time also erases the obstacles.
+- Clicking on "Clear" a second time also erases the obstacles.
 
--Zoom in/out by clicking on the +/- buttons.
+- Zoom in/out by clicking on the +/- buttons.
 
 
-# <b>Parameters: </b>
+# <b>How it works: </b>
 
-You can change a total of 4 parameters which changes the behaviour of the algorithm:
+Each cell on the grid, also called "node" can be:
 
-1) The <i>Horizontal Cost</i> is the cost of traversing one square horizontally/vertically. This cost is 10 by default.
+- "Explored", nodes that the algorithm already visited (neon pink cells)
+- "Unavailable", nodes that the algorithm has not seen yet (black cells)
+- "Available", nodes that the algorithm is aware of but hasn't visited/explored yet (dark pink cells)
 
-2) The <i>Diagonal Cost</i> is the cost of traversing one square diagonally. This cost is 14 by default. 
+There are also obstacle cells (yellow cells) which the algorithm cannot visit. 
+Upon finding the goal node, the path is traced back to the starting node.
 
-With the <i>A* algorithm</i>, each node is assigned 3 values: 
+When a node becomes "available", it is assigned 3 values:: 
 
-<i>F Cost, G Cost and H Cost </i> (where <i>F Cost = G Cost + H Cost</i>),
+<i>F Cost, G Cost and H Cost </i>, where <i>F Cost = G Cost + H Cost</i>,
 
-which are used to determine the next best node. Specifically, <i>G Cost</i> is the cost from the current node to the starting node and
-<i>H Cost</i> is the cost from the current node to the goal node (<i>H Cost</i> is also called the <i>heuristic function</i>). This <i>heuristic function</i> is what differentiates the <i>A* search algorithm</i> from <i>Dijkstra's algorithm</i> as it enables <i>A*</i> to give preference to nodes that are closer to the goal node, which often saves a lot of time.
 
-One unique feature of my implementation is that the <i>G Cost</i> and <i>H Cost</i> is always being multiplied by some value, which you can choose. This "multiplier" enables the user to change the behaviour of the search algorithm dramatically (see example GIFS below):
+<i>G Cost</i> is the cost from that node to the starting node.
 
-3) The <i>G Cost Multiplier</i> is the value by which <i>G Cost</i> is multiplied. This value is 1 by default.
+<i>H Cost</i> is the approximated cost from that node to the goal node. (also called the <i>heuristic function</i>)
 
-4) The <i>H Cost Multiplier</i> is the value by which <i>H Cost</i> is multiplied. This value is 1 by default.
+This <i>heuristic function</i> is will enable <i>A*</i> to give preference to nodes that are closer to the goal node, which saves a lot of time.
+
+Each frame, the algorithm will look at all the "available" nodes and visit/explore the one with the lowest <i>F Cost</i>. Doing this will keep the overall cost of the path as low as possible, which will give you the shortest path (although this is not always the case as we will see).
+
+One unique feature of my implementation is that the <i>H Cost</i> is always being multiplied by some weight, which the user can change. This weight enables the user to change the behaviour of the search algorithm:
 
 
 (for more details see: https://en.wikipedia.org/wiki/A*_search_algorithm, https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm). 
