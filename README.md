@@ -71,11 +71,11 @@ You can also choose from 3 distance metrics: <i>Euclidean</i>, <i>Manhattan</i> 
 <img src="https://media.giphy.com/media/iVC1VIJdMpScqgbfkO/giphy.gif" width = 400/>
 
 
-- By setting the <i>heuristic weight</i> to 0, you remove the heuristic function which effectively reverts the <i>A* algorithm</i> to <i>Dijkstra's algorithm</i> which is essentially still <i>A*</i>, just without the <i>H Cost</i>/<i>heuristic</i>. <i>Dijkstra's algorithm</i> will always find the shortest path, although it will take substantially longer than <i>A*</i>:
+- By setting the <i>heuristic weight</i> to 0, you remove the heuristic function which reverts the <i>A* algorithm</i> back to <i>Dijkstra's algorithm</i> which is essentially still <i>A*</i>, just without the <i>H Cost</i>/<i>heuristic</i>. <i>Dijkstra's algorithm</i> will always find the shortest path, although it will take substantially longer than <i>A*</i>:
 
 <img src="https://media.giphy.com/media/h9PdmF5V5LHIpvKEHh/giphy.gif" width = 400/>
 
--By increasing the <i>heuristic weight</i>, the algorithm gives more preference to nodes that are closer to the goal node. Effectively, the algorithm will spend less time exploring other directions which will result in a shorter runtime, however it may not find the shortest path that exists.
+-By increasing the <i>heuristic weight</i>, the algorithm prioritizes nodes that are closer to the goal node. Effectively, the algorithm will spend less time exploring other directions which will result in a shorter runtime, however it may not find the shortest path that exists.
 This behaviour will usually become increasingly apparent as
 you set the <i>heuristic weight >1</i>. 
 
@@ -91,7 +91,7 @@ not the shortest one that exists. This is confirmed by looking at the terminal w
 
 We can draw a general conclusion from this:
 
-- A smaller <i>heuristic weight</i> results in a bigger runtime but cheaper path
+- A smaller <i>heuristic weight</i> results in a longer runtime but cheaper path
 - A bigger <i>heuristic weight</i> results in a smaller runtime but more expensive path
 
 
