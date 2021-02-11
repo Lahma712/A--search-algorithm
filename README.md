@@ -38,7 +38,7 @@ This <i>heuristic function</i> will allow <i>A*</i> to give preference to nodes 
 
 Each frame, the algorithm will look at all the "available" nodes and visit/explore the one with the lowest <i>F Cost</i>. Doing this will keep the overall cost of the path as low as possible, which will give you the shortest path (although only under certain conditions, as we'll see).
 
-One unique feature of my implementation is that the <i>H Cost</i> is always being multiplied by some weight, which the user can change. This weight enables the user to change the behaviour of the search algorithm, so actually:
+One unique feature of my implementation is that the <i>H Cost</i> is always being multiplied by some weight (<i>heuristic weight</i>), which the user can change. This weight enables the user to change the behaviour of the search algorithm, so actually:
 
 <i>F Cost = G Cost + H Cost * Weight</i>
 
