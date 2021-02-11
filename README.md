@@ -98,7 +98,7 @@ We can draw a general conclusion from this:
 # Practical example:
 
 This is a labyrinth that I drew. 
-The respective costs are <b>1060</b> (weight: 1.0), <b>1142</b> (weight: 10) and <b>1388</b> (weight: 100):
+The respective costs are <b>1060</b> (weight: <b>1.0</b>), <b>1142</b> (weight: <b>10.0</b>) and <b>1388</b> (weight: <b>100.0</b>):
 
 <img src="https://media.giphy.com/media/0BRBAHu7MwLqVZJyyf/giphy.gif" width = 400/> <img src="https://media.giphy.com/media/wMIM2oyrccVVVl3vCF/giphy.gif" width = 400/> 
 <img src="https://media.giphy.com/media/XLZDEH5dPCmaMVp3Pc/giphy.gif" width = 400/>
