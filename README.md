@@ -6,21 +6,13 @@ This is my Python implementation of the A* pathfinding algorithm. The applicatio
 # <b>How to use: </b>
 
 - Execute <b>Main.py</b>
-
 - The red/green squares represent the starting/goal node respectively.
-
 - You can move the starting/goal node by clicking on it and then clicking on some desired square (where you want to move the node to).
-
 - You can use the mouse cursor to draw obstacles onto the grid (in yellow).
-
 - You can erase a drawn obstacle square by clicking on it again.
-
 - To start the algorithm, click on the "Start" button.
-
 - Clicking on "Clear" once erases the path drawn by the algorithm.
-
 - Clicking on "Clear" a second time also erases the obstacles.
-
 - Zoom in/out by clicking on the +/- buttons.
 
 
@@ -35,20 +27,17 @@ Each cell on the grid, also called "node" can be:
 There are also obstacle cells (yellow cells) which the algorithm cannot visit. 
 Upon finding the goal node, the path is traced back to the starting node.
 
-When a node becomes "available", it is assigned 3 values:: 
+When a node becomes "available", it is assigned 3 values:
 
-<i>F Cost, G Cost and H Cost </i>, where <i>F Cost = G Cost + H Cost</i>,
+- <i>F Cost, G Cost and H Cost </i>, where <i>F Cost = G Cost + H Cost</i>,
+- <i>G Cost</i> is the cost from that node to the starting node.
+- <i>H Cost</i> is the approximated cost from that node to the goal node. (also called the <i>heuristic function</i>)
 
+This <i>heuristic function</i> will allow <i>A*</i> to give preference to nodes that are closer to the goal node, which saves a lot of time.
 
-<i>G Cost</i> is the cost from that node to the starting node.
+Each frame, the algorithm will look at all the "available" nodes and visit/explore the one with the lowest <i>F Cost</i>. Doing this will keep the overall cost of the path as low as possible, which will give you the shortest path (although only under certain conditions, as we'll see).
 
-<i>H Cost</i> is the approximated cost from that node to the goal node. (also called the <i>heuristic function</i>)
-
-This <i>heuristic function</i> is will enable <i>A*</i> to give preference to nodes that are closer to the goal node, which saves a lot of time.
-
-Each frame, the algorithm will look at all the "available" nodes and visit/explore the one with the lowest <i>F Cost</i>. Doing this will keep the overall cost of the path as low as possible, which will give you the shortest path (although this is not always the case as we will see).
-
-One unique feature of my implementation is that the <i>H Cost</i> is always being multiplied by some weight, which the user can change. This weight enables the user to change the behaviour of the search algorithm:
+One unique feature of my implementation is that the <i>H Cost</i> is always being multiplied by some weight, which the user can change. This weight enables the user to change the behaviour of the search algorithm, so actually  <i>F Cost = G Cost + H Cost * Weight</i>
 
 
 (for more details see: https://en.wikipedia.org/wiki/A*_search_algorithm, https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm). 
