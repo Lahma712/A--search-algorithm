@@ -71,12 +71,12 @@ You can also choose from 3 distance metrics: <i>Euclidean</i>, <i>Manhattan</i> 
 <img src="https://media.giphy.com/media/iVC1VIJdMpScqgbfkO/giphy.gif" width = 400/>
 
 
-- By setting the <i>heuristic weight</i> to 0, you remove the heuristic function which effectively reverts the <i>A* algorithm</i> to <i>Dijkstra's algorithm</i>. <i>Dijkstra's algorithm</i> will always find the shortest path:
+- By setting the <i>heuristic weight</i> to 0, you remove the heuristic function which effectively reverts the <i>A* algorithm</i> to <i>Dijkstra's algorithm</i> which is essentially still <i>A*</i>, just without the <i>H Cost</i>/<i>heuristic</i>. <i>Dijkstra's algorithm</i> will always find the shortest path, although it will take substantially longer than <i>A*</i>:
 
 <img src="https://media.giphy.com/media/h9PdmF5V5LHIpvKEHh/giphy.gif" width = 400/>
 
-- By increasing the <i>heuristic weight</i>, the algorithm gives more preference to nodes that make it go into the direction of the goal node. Effectively, the algorithm will spend less time exploring other directions which will make it find a possible path faster, however that may not be the shortest path that exists.
-This behaviour will become apparent when 
+-By increasing the <i>heuristic weight</i>, the algorithm gives more preference to nodes that are closer to the goal node. Effectively, the algorithm will spend less time exploring other directions which will result in a shorter runtime, however it may not find the shortest path that exists.
+This behaviour will usually become increasingly apparent as
 you set the <i>heuristic weight >1</i>. 
 
 
