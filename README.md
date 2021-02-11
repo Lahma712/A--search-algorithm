@@ -87,7 +87,7 @@ Below is the evolution of the algorithm with <i>heuristic weights</i> <b>0, 0.2,
 
 One can see that when the weight is <b>10</b>, the path is clearly
 not the shortest one that exists. This is confirmed by looking at the terminal where the total cost is being printed. For weights <b>0, 0.2, 0.8, 1, 1.2 and 1.5</b> the cost is 
-<b>232</b>, however for weight <b>10</b>, the cost is <b>256</b>. While the path is more expensive, it is found faster than the others.
+<b>232</b>, however for weight <b>10</b>, the cost is <b>256</b>. While the path is more expensive, it is found quicker than the others.
 
 We can draw a general conclusion from this:
 
