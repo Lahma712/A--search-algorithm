@@ -90,20 +90,22 @@ not the shortest one that exists. This is confirmed by looking at the terminal w
 
 We can draw a general conclusion from this:
 
-- The smaller the weight of the heuristic function, the longer the algorithm searches BUT the path will probably be cheaper
-- The bigger the weight of the heuristic function, the faster the algorithm finds a valid path BUT that path will probably be more expensive
+- A smaller <i>heuristic weight</i> results in a bigger runtime but cheaper path
+- A bigger <i>heuristic weight</i> results in a smaller runtime but more expensive path
 
 
-<img src="https://media.giphy.com/media/pCfpHKxsHeUai3IU6k/giphy.gif" width = 400/> 
 
-You can also change the costs of horizontal/vertical and diagonal traversal. This completely changes how the algorithm searches for a path, but obviously this is often not
-the shortest path:
+# Practical example:
 
-<img src="https://media.giphy.com/media/86pEw8wj5dIfVvaWoN/giphy.gif" width = 400/> <img src="https://media.giphy.com/media/dDaaGqUDDR8gNq77NJ/giphy.gif" width = 400/>
-<img src="https://media.giphy.com/media/PFOvIveyaW8gyEvKuE/giphy.gif" width = 400/>
+This is a labyrinth that I drew. 
+The respective costs are <b>1060</b> (weight 1), <b>1142</b> (weight 10) and <b>1388</b> (weight 100):
+
+<img src="https://media.giphy.com/media/0BRBAHu7MwLqVZJyyf/giphy.gif" width = 400/> <img src="https://media.giphy.com/media/wMIM2oyrccVVVl3vCF/giphy.gif" width = 400/> 
+<img src="https://media.giphy.com/media/XLZDEH5dPCmaMVp3Pc/giphy.gif" width = 400/>
+
 
 Note: framerate/quality loss due to GIF conversion 
-1060, 1142, 1388
+
 # <b>Dependencies: </b>
 
 -Python 3.8
