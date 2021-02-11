@@ -76,7 +76,8 @@ You can also choose from 3 distance metrics: <i>Euclidean</i>, <i>Manhattan</i> 
 <img src="https://media.giphy.com/media/h9PdmF5V5LHIpvKEHh/giphy.gif" width = 400/>
 
 - By increasing the <i>heuristic weight</i>, the algorithm gives more preference to nodes that make it go into the direction of the goal node. Effectively, the algorithm will spend less time exploring other directions which will make it find a possible path faster, however that may not be the shortest path that exists.
-This behaviour will become apparent when you set the <i>heuristic weight > 1</i>. 
+This behaviour will become apparent when 
+you set the <i>heuristic weight >1</i>. 
 
 
 Below is the evolution of the algorithm with <i>heuristic weights</i> <b>0, 0.2, 0.8, 1, 1.2, 1.5 and 10 </b>. 
