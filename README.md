@@ -65,18 +65,28 @@ You can also choose from 3 distance metrics: <i>Euclidean</i>, <i>Manhatten</i> 
 
 <b><i>Chebyshev:</i></b>
 
+
 <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/1e41856e4c8dfd7e69948b55735d4464113b9e7e" width = 400/>
 
 <img src="https://media.giphy.com/media/iVC1VIJdMpScqgbfkO/giphy.gif" width = 400/>
 
 
-- By setting the <i>heuristic weight</i> to 0, you remove the heuristic function which effectively reverts the <i>A* algorithm</i> to the <i>Dijkstra's algorithm</i>. <i>Dijkstra's algorithm</i> will always find the shortest path:
+- By setting the <i>heuristic weight</i> to 0, you remove the heuristic function which effectively reverts the <i>A* algorithm</i> to <i>Dijkstra's algorithm</i>. <i>Dijkstra's algorithm</i> will always find the shortest path:
 
 <img src="https://media.giphy.com/media/h9PdmF5V5LHIpvKEHh/giphy.gif" width = 400/>
 
-- By increasing the <i>heuristic weight</i>, the algorithm effectively gives more preference to nodes that make it go into the direction of the goal node. Effectively, the algorithm will spend less time exploring other directions which will make it find a possible path in a shorter amount of time, however it may not be the shortest path that exists. This behaviour will become apparent when you set the <i>heuristic weight > 1</i>:
+- By increasing the <i>heuristic weight</i>, the algorithm gives more preference to nodes that make it go into the direction of the goal node. Effectively, the algorithm will spend less time exploring other directions which will make it find a possible path faster, however that may not be the shortest path that exists.
+This behaviour will become apparent when you set the <i>heuristic weight > 1</i>. 
 
-<img src="https://media.giphy.com/media/Ql0euJ6RWwriRUiWMz/giphy.gif" width = 400/>
+
+Below is the evolution of the algorithm with <i>heuristic weights</i> <b>0, 0.2, 0.8, 1, 1.2, 1.5 and 10 </b>. 
+
+<img src="https://media.giphy.com/media/h9PdmF5V5LHIpvKEHh/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/jkskxPqNFut7WqFjgR/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/EQWoN6goocESFPOwbt/giphy.gif" width = 250/> 
+<img src="https://media.giphy.com/media/9yONohNwZvvVEqcKur/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/dMFJ9G9WD0r6NfEkUI/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/omwJ3yMbsZF6e5lORf/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/F4bd3oMB78JcZfmW4A/giphy.gif" width = 250/> 
+
+One can see that when the weight is <b>10</b>, the path is clearly
+not the shortest one that exists. This is confirmed by looking at the terminal where the total cost is being printed. For weights <b>0, 0.2, 0.8, 1, 1.2 and 1.5</b> the cost is 
+<b>232</b>, however for weight <b>10</b> the cost is <b>256</b>.
 
 You can play around with the <i>G</i> and <i>H Cost</i> multipliers. By increasing the <i>G Cost</i> multiplier, the algorithm stays longer around the starting node.
 By increasing the <i>H Cost</i> multiplier, the algorithm goes faster into the direction of the goal node:
@@ -90,7 +100,7 @@ the shortest path:
 <img src="https://media.giphy.com/media/PFOvIveyaW8gyEvKuE/giphy.gif" width = 400/>
 
 Note: framerate/quality loss due to GIF conversion 
-
+1060, 1142, 1388
 # <b>Dependencies: </b>
 
 -Python 3.8
