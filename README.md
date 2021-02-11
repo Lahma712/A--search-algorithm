@@ -75,7 +75,7 @@ You can also choose from 3 distance metrics: <i>Euclidean</i>, <i>Manhattan</i> 
 
 <img src="https://media.giphy.com/media/h9PdmF5V5LHIpvKEHh/giphy.gif" width = 400/>
 
--By increasing the <i>heuristic weight</i>, the algorithm prioritizes nodes that are closer to the goal node. Effectively, the algorithm will spend less time exploring other directions which will result in a shorter runtime, however it may not find the shortest path that exists.
+- By increasing the <i>heuristic weight</i>, the algorithm prioritizes nodes that are closer to the goal node. Effectively, the algorithm will spend less time exploring other directions which will result in a shorter runtime, however it may not find the shortest path that exists.
 This behaviour will usually become increasingly apparent as
 you set the <i>heuristic weight >1</i>. 
 
@@ -109,11 +109,11 @@ Note: framerate/quality loss due to GIF conversion
 
 # <b>Dependencies: </b>
 
--Python 3.8
+- Python 3.8
 
--Kivy 2.0.0
+- Kivy 2.0.0
 
--PIL (Python Imaging Library)
+- PIL (Python Imaging Library)
 
 # <b>Sources:</b>
 - https://en.wikipedia.org/wiki/A*_search_algorithm
