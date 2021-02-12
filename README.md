@@ -72,7 +72,7 @@ between two nodes: <i>Euclidean</i>, <i>Manhattan</i> and <i>Chebyshev</i>.
 <img src="https://media.giphy.com/media/iVC1VIJdMpScqgbfkO/giphy.gif" width = 400/>
 
 
-- By setting the <i>heuristic weight</i> to 0, you remove the heuristic function which reverts the <i>A* algorithm</i> back to <i>Dijkstra's algorithm</i> which essentially is still <i>A*</i>, just without the <i>H Cost</i>/<i>heuristic</i>. <i>Dijkstra's algorithm</i> will always find the shortest path, although it will take substantially longer than <i>A*</i>:
+- By setting the <i>heuristic weight</i> to 0, you remove the heuristic function. This reverts the <i>A* algorithm</i> back to <i>Dijkstra's algorithm</i> which essentially is still <i>A*</i>, just without the <i>H Cost</i>/<i>heuristic</i>. <i>Dijkstra's algorithm</i> will always find the shortest path, although it will take substantially longer than <i>A*</i>:
 
 <img src="https://media.giphy.com/media/h9PdmF5V5LHIpvKEHh/giphy.gif" width = 400/>
 
@@ -80,7 +80,7 @@ between two nodes: <i>Euclidean</i>, <i>Manhattan</i> and <i>Chebyshev</i>.
 
 As described above, <i>F Cost = G Cost + H Cost * Weight</i>
 
-Each frame, the algorithm will explore the node with the lowest <i>F Cost</i>. However, if the <i>H Cost * Weight</i> term becomes big enough, <i>G Cost</i> essentially becomes negligeable in comparison. The size of <i>F Cost</i> will only be influenced by the <i>H Cost * Weight</i> term. When this happens, the lowest <i>F Cost</i> can be set equal to just the lowest <i>H Cost</i> which is the node that is closest to the goal node. What does this mean in practice?
+Each frame, the algorithm will explore the node with the lowest <i>F Cost</i>. However, if the <i>H Cost * Weight</i> term becomes big enough, <i>G Cost</i> essentially becomes negligeable in comparison. When this happens, <i>F Cost</i> will become proportional to <i>H Cost</i>, meaning each frame, the node with the lowest <i>F Cost</i> will be the one with the lowest <i>H Cost</i>, which will always be the node that is closest to the goal node. What does this mean in practice?
 
 Effectively, the algorithm will spend less time exploring other directions (that don't go into the direction of the goal node) which will often result in a shorter runtime, however it may not find the shortest path that exists anymore.
 This behaviour will become increasingly apparent as
