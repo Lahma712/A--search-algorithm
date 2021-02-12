@@ -52,7 +52,9 @@ One unique feature of my implementation is that the <i>H Cost</i> is always bein
 - This is the standard configuration, which is the classic <i>A* search algorithm</i>. The <i>heuristic weight</i> is set to 1. With this heuristic, the shortest path
 will always be found.
 You can also choose from 3 distance metrics, which are used to calculate the distance
-between two nodes: <i>Euclidean</i>, <i>Manhattan</i> and <i>Chebyshev</i>. 
+between two nodes: <i>Euclidean</i>, <i>Manhattan</i> and <i>Chebyshev</i>.
+
+(Note: these GIFS are not representative of the real framerate/resolution of the application, due to image compression)
 
 <b><i>Euclidean:</i></b>
 
@@ -118,7 +120,7 @@ The respective costs are <b>1060</b> (weight: <b>1.0</b>), <b>1142</b> (weight: 
 <img src="https://media.giphy.com/media/XLZDEH5dPCmaMVp3Pc/giphy.gif" width = 400/>
 
 
-Note: framerate/quality loss due to GIF conversion 
+
 
 # <b>Dependencies: </b>
 
