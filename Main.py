@@ -75,8 +75,10 @@ class Drw(Widget):
 			self.add_widget(self.clear)
 
 			
-			self.Text3 = Label(text= "Heuristic Weight", pos = (self.Width*0.25, self.Height*0.06), size = (self.Width*0.25, self.Height*0.06))
-			self.HWeightInput = TextInput(text = "1.0", font_size = self.Height * 0.03, size = (self.Width * 0.25, self.Height*0.06), pos = (self.Width * 0.25, 0), multiline = False)
+			self.Text1 = Label(text= "H. Weight: ", pos = (self.Width*0.25, self.Height*0.06), size = (self.Width*0.15, self.Height*0.06))
+			self.Text2 = Label(text= "Path Cost: ", pos = (self.Width*0.25, 0), size = (self.Width*0.25, self.Height*0.06))
+
+			self.HWeightInput = TextInput(text = "1.0", font_size = self.Height * 0.03, size = (self.Width * 0.10, self.Height*0.06), pos = (self.Width * 0.40, self.Height*0.06), multiline = False)
 			self.EuclBox = ToggleButton(group = "distance", text = "Euclidean", pos = (0,self.Height*0.08), size = (self.Width * 0.25, self.Height *0.04))
 			self.ManhBox = ToggleButton(group = "distance", text = "Manhattan", pos= (0,self.Height*0.04), size = (self.Width * 0.25, self.Height *0.04))
 			self.ChebyBox = ToggleButton(group = "distance", text = "Chebyshev", pos= (0,0), size = (self.Width * 0.25, self.Height *0.04))
@@ -187,7 +189,7 @@ class Drw(Widget):
 				self.check = False
 			
 			drawCell(self.Cells[0][self.End[0]],self.Cells[1][self.End[1]], self.PathColor, self.draw)
-			print("\nTotal cost of path: " + str(self.ParentGCost))
+			self.Text2.text = "Path Cost: " + str(self.ParentGCost)
 			self.save(self)
 			self.Startevent.cancel()
 
