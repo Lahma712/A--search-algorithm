@@ -58,25 +58,25 @@ between two nodes: <i>Euclidean</i>, <i>Manhattan</i> and <i>Chebyshev</i>.
 
 <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/2e0c9ce1b3455cb9e92c6bad6684dbda02f69c82" width = 400/>
 
-<img src="https://media.giphy.com/media/9yONohNwZvvVEqcKur/giphy.gif" width = 400/>
+<img src="https://media.giphy.com/media/f110ff3f73CgkjiNdm/giphy.gif" width = 400/>
 
 <b><i>Manhattan:</i></b>
 
 <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/02436c34fc9562eb170e2e2cfddbb3303075b28e" width = 400/>
 
-<img src="https://media.giphy.com/media/RtlKjZVBKZdYlXktCO/giphy.gif" width = 400/>
+<img src="https://media.giphy.com/media/Px5fGcRrnZJi6hXOF4/giphy.gif" width = 400/>
 
 <b><i>Chebyshev:</i></b>
 
 
 <img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/1e41856e4c8dfd7e69948b55735d4464113b9e7e" width = 400/>
 
-<img src="https://media.giphy.com/media/iVC1VIJdMpScqgbfkO/giphy.gif" width = 400/>
+<img src="https://media.giphy.com/media/32fixG6E1i1hoiOFpY/giphy.gif" width = 400/>
 
 
 - By setting the <i>heuristic weight</i> to 0, you remove the heuristic function. This reverts the <i>A* algorithm</i> back to <i>Dijkstra's algorithm</i> which essentially is still <i>A*</i>, just without the <i>H Cost</i>/<i>heuristic</i>. <i>Dijkstra's algorithm</i> will always find the shortest path, although it will take substantially longer than <i>A*</i>:
 
-<img src="https://media.giphy.com/media/h9PdmF5V5LHIpvKEHh/giphy.gif" width = 400/>
+<img src="https://media.giphy.com/media/3HeVeKFrYq4MBhABfa/giphy.gif" width = 400/>
 
 - By changing the <i>heuristic weight</i>, the algorithm behaves differently. But why?
 
