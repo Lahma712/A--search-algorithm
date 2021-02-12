@@ -47,7 +47,7 @@ One unique feature of my implementation is that the <i>H Cost</i> is always bein
 (for more details see: https://en.wikipedia.org/wiki/A*_search_algorithm, https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm). 
 
 
-# <b>More details: </b>
+# <b>Features: </b>
 
 - This is the standard configuration, which is the classic <i>A* search algorithm</i>. The <i>heuristic weight</i> is set to 1. With this heuristic, the shortest path
 will always be found.
