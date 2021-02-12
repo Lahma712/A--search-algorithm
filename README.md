@@ -109,13 +109,13 @@ We can draw a general conclusion from this:
 - A smaller <i>heuristic weight</i> results in a longer runtime but cheaper path
 - A bigger <i>heuristic weight</i> results in a smaller runtime but more expensive path
 
-However, this is more a general guideline and does not strictly apply to every case (See the practical example below).
+However, this is more of a general guideline and does not strictly apply to every case, as there are limits to it. This can be seen in the practical example below.
 # <b>Practical example:</b>
 
 This is a labyrinth that I drew. 
 
 The respective costs are <b>944</b> (weight: <b>1.0</b>), <b>1102</b> (weight: <b>10.0</b>) and <b>1729</b> (weight: <b>100.0</b>). One notices that with a weight
-of <b>10</b>, the algorithms works significantly faster but the path is slightly more expensive (as expected), however if we increase the weight excessively (weight <b>100</b>), the runtime gets longer again and the path much more expensive. This shows that one needs to find a <i>heuristic weight</i> that balances <i>speed</i> and <i>optimal cost</i>. In this case that would be a weight of <b>10</b>:
+of <b>10</b>, the algorithm works significantly faster but the path is slightly more expensive (as expected), however if we increase the weight excessively (weight of <b>100</b>), the runtime gets longer again and the path much more expensive. This shows that one needs to find a <i>heuristic weight</i> that balances <i>speed</i> and <i>optimal cost</i>. In this case that would be a weight of <b>10</b>:
 
 <img src="https://media.giphy.com/media/NTKVNjsTskTEhf7KjF/giphy.gif" width = 400/> <img src="https://media.giphy.com/media/8e1yMiT0ibGC9iU45t/giphy.gif" width = 400/> 
 <img src="https://media.giphy.com/media/tywtvzro0fwiq9bweR/giphy.gif" width = 400/>
