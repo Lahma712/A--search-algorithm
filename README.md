@@ -49,7 +49,8 @@ One unique feature of my implementation is that the <i>H Cost</i> is always bein
 
 - This is the standard configuration, which is the classic <i>A* search algorithm</i>. The <i>heuristic weight</i> is set to 1. With this heuristic, the shortest path
 will always be found.
-You can also choose from 3 distance metrics: <i>Euclidean</i>, <i>Manhattan</i> and <i>Chebyshev</i>. 
+You can also choose from 3 distance metrics, which are used to calculate the distance
+between two nodes: <i>Euclidean</i>, <i>Manhattan</i> and <i>Chebyshev</i>. 
 
 <b><i>Euclidean:</i></b>
 
