@@ -91,8 +91,7 @@ If we set the <i>heuristic weight < 1</i>, the <i>G Cost</i> will start to "outw
 
 With a <i>heuristic weight = 1</i>, neither the <i>G Cost</i>, nor the <i>H Cost</i> are more important than the other. In fact, they are inversely proportional and balance each other out as when the algorithm comes closer to the goal node, the <i>H Cost</i> decreases while the <i>G Cost</i> increases by the same factor.
 
-The changes in behaviour are gradual
-Below is the evolution of the algorithm with <i>heuristic weights</i> <b>0, 0.2, 0.8, 1, 1.2, 1.5 and 10 </b>. 
+The changes in behaviour are gradual. Below is the evolution of the algorithm with <i>heuristic weights</i> <b>0, 0.2, 0.8, 1, 1.2, 1.5 and 10 </b>. 
 
 <img src="https://media.giphy.com/media/h9PdmF5V5LHIpvKEHh/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/jkskxPqNFut7WqFjgR/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/EQWoN6goocESFPOwbt/giphy.gif" width = 250/> 
 <img src="https://media.giphy.com/media/9yONohNwZvvVEqcKur/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/dMFJ9G9WD0r6NfEkUI/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/omwJ3yMbsZF6e5lORf/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/F4bd3oMB78JcZfmW4A/giphy.gif" width = 250/> 
