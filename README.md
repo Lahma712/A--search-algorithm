@@ -36,7 +36,7 @@ When a node becomes "available", it is assigned 3 values:
 
 This <i>heuristic function</i> will allow <i>A*</i> to give preference to nodes that are closer to the goal node, which saves a lot of time.
 
-Each frame, the algorithm will look at all the "available" nodes and visit/explore the one with the lowest <i>F Cost</i>. Doing this will keep the overall cost of the path as low as possible, which will give you the shortest path (although only under certain conditions, as we'll see).
+Each frame, the algorithm will look at all the "available" nodes and visit/explore the one with the lowest <i>F Cost</i>. This will then repeat until the algorithm has arrived at the goal node. Generally, by always picking the lowest <i>F Cost</i>, the overall cost of the path will be kept as low as possible, which will find you the shortest path (although only under certain conditions, as we'll see). 
 
 One unique feature of my implementation is that the <i>H Cost</i> is always being multiplied by some weight (<i>heuristic weight</i>), which the user can change. This weight enables the user to change the behaviour of the search algorithm, so actually:
 
@@ -72,11 +72,17 @@ between two nodes: <i>Euclidean</i>, <i>Manhattan</i> and <i>Chebyshev</i>.
 <img src="https://media.giphy.com/media/iVC1VIJdMpScqgbfkO/giphy.gif" width = 400/>
 
 
-- By setting the <i>heuristic weight</i> to 0, you remove the heuristic function which reverts the <i>A* algorithm</i> back to <i>Dijkstra's algorithm</i> which is essentially still <i>A*</i>, just without the <i>H Cost</i>/<i>heuristic</i>. <i>Dijkstra's algorithm</i> will always find the shortest path, although it will take substantially longer than <i>A*</i>:
+- By setting the <i>heuristic weight</i> to 0, you remove the heuristic function which reverts the <i>A* algorithm</i> back to <i>Dijkstra's algorithm</i> which essentially is still <i>A*</i>, just without the <i>H Cost</i>/<i>heuristic</i>. <i>Dijkstra's algorithm</i> will always find the shortest path, although it will take substantially longer than <i>A*</i>:
 
 <img src="https://media.giphy.com/media/h9PdmF5V5LHIpvKEHh/giphy.gif" width = 400/>
 
-- By increasing the <i>heuristic weight</i>, the algorithm prioritizes nodes that are closer to the goal node. Effectively, the algorithm will spend less time exploring other directions which will result in a shorter runtime, however it may not find the shortest path that exists.
+- By increasing the <i>heuristic weight</i>, the algorithm prioritizes nodes that are closer to the goal node. But why?
+
+As described above, <i>F Cost = G Cost + H Cost * Weight</i>
+
+Each frame, the algorithm will explore the node with the lowest <i>F Cost</i>. If the <i>heuristic weight</i> becomes big enough, <i>G Cost</i> essentially becomes negligeable and the size of the <i>F Cost</i> will only be influenced by the <i>H Cost * Weight</i> term. when this happens, the lowest <i>F Cost</i> can be set equal to just the lowest <i>H Cost</i> which is the node that is closest to the goal.
+
+Effectively, the algorithm will spend less time exploring other directions which will result in a shorter runtime, however it may not find the shortest path that exists.
 This behaviour will usually become increasingly apparent as
 you set the <i>heuristic weight >1</i>. 
 
