@@ -115,7 +115,9 @@ However, this is more of a general guideline and does not strictly apply to ever
 This is a labyrinth that I drew. 
 
 The respective costs are <b>944</b> (weight: <b>1.0</b>), <b>1102</b> (weight: <b>10.0</b>) and <b>1729</b> (weight: <b>100.0</b>). One notices that with a weight
-of <b>10</b>, the algorithm works significantly faster but the path is slightly more expensive (as expected), however if we increase the weight excessively (weight of <b>100</b>), the runtime gets longer again and the path much more expensive. This shows that a <i>heuristic weight</i> that is too large can slow the algorithm down again. In this case, the optimal weight would be <b>10</b> as it balances <i>speed</i> and <i>optimal cost</i> the best:
+of <b>10</b>, the algorithm works significantly faster but the path is slightly more expensive (as expected), however if we increase the weight excessively (weight of <b>100</b>), the runtime gets longer again and the path much more expensive. This shows that a <i>heuristic weight</i> that is too large can slow the algorithm down again.
+
+In this case, the optimal weight would be <b>10</b> as it balances <i>speed</i> and <i>optimal cost</i> the best:
 
 <img src="https://media.giphy.com/media/NTKVNjsTskTEhf7KjF/giphy.gif" width = 400/> <img src="https://media.giphy.com/media/8e1yMiT0ibGC9iU45t/giphy.gif" width = 400/> 
 <img src="https://media.giphy.com/media/tywtvzro0fwiq9bweR/giphy.gif" width = 400/>
