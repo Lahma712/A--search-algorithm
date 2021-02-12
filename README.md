@@ -16,7 +16,7 @@ This is my Python implementation of the A* pathfinding algorithm. The applicatio
 - Zoom in/out by clicking on the +/- buttons.
 - You can select one of the distance metrics by clicking on the respective button (Euclidean, Manhattan, Chebyshev)
 - You can enter a new heuristic weight into the input box
-- After the path has been traced, the total cost is printed in the terminal.
+- After the path has been traced, the total cost is being shown in the "Path Cost" box
 
 
 # <b>How it works: </b>
@@ -99,8 +99,8 @@ The changes in behaviour are gradual. Below is the evolution of the algorithm wi
 <img src="https://media.giphy.com/media/f110ff3f73CgkjiNdm/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/RrqTBgtSXVu7mu9iBI/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/btyfFUup4sxunhfTyP/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/m3yC0SAWB7vo9aKpcX/giphy.gif" width = 250/> 
 
 One can see that when the weight is <b>10</b>, the path is clearly
-not the shortest one that exists. This is confirmed by looking at the terminal where the total cost is being printed. For weights <b>0</b>, <b>0.2</b>, <b>0.8</b>, <b>1</b>, <b>1.2</b> and <b>1.5</b> the cost is 
-<b>232</b>, however for weight <b>10</b>, the cost is <b>256</b>. While the path is more expensive, it is found quicker than the others.
+not the shortest one that exists. This is confirmed by looking at the path cost. For weights <b>0</b>, <b>0.2</b>, <b>0.8</b>, <b>1</b>, <b>1.2</b> and <b>1.5</b> the cost is 
+<b>238</b>, however for weight <b>10</b>, the cost is <b>262</b>. While the path is more expensive, it is found quicker than the others.
 
 We can draw a general conclusion from this:
 
