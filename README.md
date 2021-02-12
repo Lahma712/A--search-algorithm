@@ -96,7 +96,7 @@ With a <i>heuristic weight = 1</i>, neither the <i>G Cost</i>, nor the <i>H Cost
 The changes in behaviour are gradual. Below is the evolution of the algorithm with <i>heuristic weights</i> <b>0</b>, <b>0.2</b>, <b>0.8</b>, <b>1</b>, <b>1.2</b>, <b>1.5</b> and <b>10 </b>. 
 
 <img src="https://media.giphy.com/media/h9PdmF5V5LHIpvKEHh/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/324TGzP2vE4ayM03Vz/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/KibQNZMbxd40pXjr22/giphy.gif" width = 250/> 
-<img src="https://media.giphy.com/media/9yONohNwZvvVEqcKur/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/dMFJ9G9WD0r6NfEkUI/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/omwJ3yMbsZF6e5lORf/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/F4bd3oMB78JcZfmW4A/giphy.gif" width = 250/> 
+<img src="https://media.giphy.com/media/9yONohNwZvvVEqcKur/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/RrqTBgtSXVu7mu9iBI/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/omwJ3yMbsZF6e5lORf/giphy.gif" width = 250/> <img src="https://media.giphy.com/media/F4bd3oMB78JcZfmW4A/giphy.gif" width = 250/> 
 
 One can see that when the weight is <b>10</b>, the path is clearly
 not the shortest one that exists. This is confirmed by looking at the terminal where the total cost is being printed. For weights <b>0</b>, <b>0.2</b>, <b>0.8</b>, <b>1</b>, <b>1.2</b> and <b>1.5</b> the cost is 
