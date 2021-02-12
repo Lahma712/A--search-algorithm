@@ -82,12 +82,12 @@ As described above, <i>F Cost = G Cost + H Cost * Weight</i>
 
 Each frame, the algorithm will explore the node with the lowest <i>F Cost</i>. 
 
-If we set the <i>heuristic weight > 1</i>, the <i>H Cost * Weight</i> term will start to "outweigh" the <i>G Cost</i>. This means that each frame, the node with the lowest <i>F Cost</i> will likely be the one with the lowest <i>H Cost</i> (closest to the goal node). The more we increase <i>heuristic weight</i>, the more <i>G Cost</i> becomes negligeable. What does this mean in practice?
+If we set the <i>heuristic weight > 1</i>, the <i>H Cost * Weight</i> term will start to "outweigh" the <i>G Cost</i>. This means that each frame, the node with the lowest <i>F Cost</i> will likely just be the one with the lowest <i>H Cost</i> (closest to the goal node). The more we increase the <i>heuristic weight</i>, the more <i>G Cost</i> becomes negligeable. What does this mean in practice?
 
 Effectively, the algorithm will spend less time exploring other directions (that don't go into the direction of the goal node) which will often result in a shorter runtime, however it may not find the shortest path that exists anymore.
 This behaviour will become increasingly apparent as you set the <i>heuristic weight >1</i>. 
 
-If we set the <i>heuristic weight < 1</i>, the <i>G Cost</i> will start to "outweigh" the <i>H Cost * Weight</i> term. Each frame. the node with the lowest <i>F Cost</i> will likely be the one with the lowest <i>G Cost</i> (closest to the starting node). As expected, the more we decrease the <i>heuristic weight</i>, the more <i>H Cost</i> becomes negligeable. In practice, the algorithm will spend more time exploring other directions (that don't go into the direction of the goal node). This has the advantage that the algorithm is more likely to find the shortest path, however the runtime is often longer.
+If we set the <i>heuristic weight < 1</i>, the <i>G Cost</i> will start to "outweigh" the <i>H Cost * Weight</i> term. Each frame. the node with the lowest <i>F Cost</i> will likely just be the one with the lowest <i>G Cost</i> (closest to the starting node). As expected, the more we decrease the <i>heuristic weight</i>, the more <i>H Cost</i> becomes negligeable. In practice, the algorithm will spend more time exploring other directions (that don't go into the direction of the goal node). This has the advantage that the algorithm is more likely to find the shortest path, however the runtime is often longer.
 
 With a <i>heuristic weight = 1</i>, neither the <i>G Cost</i>, nor the <i>H Cost</i> are more important than the other. In fact, they are inversely proportional and balance each other out as when the algorithm comes closer to the goal node, the <i>H Cost</i> decreases while the <i>G Cost</i> increases by the same factor.
 
