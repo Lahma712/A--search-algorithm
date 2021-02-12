@@ -80,10 +80,10 @@ between two nodes: <i>Euclidean</i>, <i>Manhattan</i> and <i>Chebyshev</i>.
 
 As described above, <i>F Cost = G Cost + H Cost * Weight</i>
 
-Each frame, the algorithm will explore the node with the lowest <i>F Cost</i>. If the <i>heuristic weight</i> becomes big enough, <i>G Cost</i> essentially becomes negligeable and the size of the <i>F Cost</i> will only be influenced by the <i>H Cost * Weight</i> term. when this happens, the lowest <i>F Cost</i> can be set equal to just the lowest <i>H Cost</i> which is the node that is closest to the goal.
+Each frame, the algorithm will explore the node with the lowest <i>F Cost</i>. However, if the <i>H Cost * Weight</i> term becomes big enough, <i>G Cost</i> essentially becomes negligeable in comparison. The size of <i>F Cost</i> will only be influenced by the <i>H Cost * Weight</i> term. When this happens, the lowest <i>F Cost</i> can be set equal to just the lowest <i>H Cost</i> which is the node that is closest to the goal node. What does this mean in practice?
 
-Effectively, the algorithm will spend less time exploring other directions which will result in a shorter runtime, however it may not find the shortest path that exists.
-This behaviour will usually become increasingly apparent as
+Effectively, the algorithm will spend less time exploring other directions (that don't go into the direction of the goal node) which will often result in a shorter runtime, however it may not find the shortest path that exists anymore.
+This behaviour will become increasingly apparent as
 you set the <i>heuristic weight >1</i>. 
 
 
