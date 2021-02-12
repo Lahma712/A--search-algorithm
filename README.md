@@ -116,8 +116,8 @@ We can draw a general conclusion from this:
 This is a labyrinth that I drew. 
 The respective costs are <b>1060</b> (weight: <b>1.0</b>), <b>1142</b> (weight: <b>10.0</b>) and <b>1388</b> (weight: <b>100.0</b>):
 
-<img src="https://media.giphy.com/media/0BRBAHu7MwLqVZJyyf/giphy.gif" width = 400/> <img src="https://media.giphy.com/media/wMIM2oyrccVVVl3vCF/giphy.gif" width = 400/> 
-<img src="https://media.giphy.com/media/XLZDEH5dPCmaMVp3Pc/giphy.gif" width = 400/>
+<img src="https://media.giphy.com/media/NTKVNjsTskTEhf7KjF/giphy.gif" width = 400/> <img src="https://media.giphy.com/media/8e1yMiT0ibGC9iU45t/giphy.gif" width = 400/> 
+<img src="https://media.giphy.com/media/tywtvzro0fwiq9bweR/giphy.gif" width = 400/>
 
 
 
