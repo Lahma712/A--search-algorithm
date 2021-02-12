@@ -14,6 +14,8 @@ This is my Python implementation of the A* pathfinding algorithm. The applicatio
 - Clicking on "Clear" once erases the path drawn by the algorithm.
 - Clicking on "Clear" a second time also erases the obstacles.
 - Zoom in/out by clicking on the +/- buttons.
+- You can select one of the distance metrics by clicking on the respective button (Euclidean, Manhattan, Chebyshev)
+- You can enter a new heuristic weight into the input box
 - After the path has been traced, the total cost is printed in the terminal.
 
 
