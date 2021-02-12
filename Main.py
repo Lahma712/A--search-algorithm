@@ -17,8 +17,8 @@ from io import BytesIO
 kivy.require("2.0.0")
 
 class Drw(Widget):
-	Width = 500 
-	Height = 500 
+	Width = 600 
+	Height = 600 
 	Window.size = (Width, Height)
 	GWidth = int(Width) 
 	GHeight = int(Height * 0.88) #grid height is a little bit shorter than the full window size because of the buttons 
