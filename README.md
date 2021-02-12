@@ -113,8 +113,9 @@ However, this is more a general guideline and does not strictly apply to every c
 # <b>Practical example:</b>
 
 This is a labyrinth that I drew. 
+
 The respective costs are <b>944</b> (weight: <b>1.0</b>), <b>1102</b> (weight: <b>10.0</b>) and <b>1729</b> (weight: <b>100.0</b>). One notices that with a weight
-of <b>10</b>, the runtime is significantly smaller and the path more expensive (as expected), however if we further increase the weight, the runtime gets longer again and the path much more expensive:
+of <b>10</b>, the algorithms works significantly faster but the path is slightly more expensive (as expected), however if we increase the weight excessively (weight <b>100</b>), the runtime gets longer again and the path much more expensive. This shows that one needs to find a <i>heuristic weight</i> that balances <i>speed</i> and <i>optimal cost</i>. In this case that would be a weight of <b>10</b>:
 
 <img src="https://media.giphy.com/media/NTKVNjsTskTEhf7KjF/giphy.gif" width = 400/> <img src="https://media.giphy.com/media/8e1yMiT0ibGC9iU45t/giphy.gif" width = 400/> 
 <img src="https://media.giphy.com/media/tywtvzro0fwiq9bweR/giphy.gif" width = 400/>
