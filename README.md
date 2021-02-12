@@ -109,12 +109,12 @@ We can draw a general conclusion from this:
 - A smaller <i>heuristic weight</i> results in a longer runtime but cheaper path
 - A bigger <i>heuristic weight</i> results in a smaller runtime but more expensive path
 
-
-
+However, this is more a general guideline and does not strictly apply to every case (See the practical example below).
 # <b>Practical example:</b>
 
 This is a labyrinth that I drew. 
-The respective costs are <b>1060</b> (weight: <b>1.0</b>), <b>1142</b> (weight: <b>10.0</b>) and <b>1388</b> (weight: <b>100.0</b>):
+The respective costs are <b>944</b> (weight: <b>1.0</b>), <b>1102</b> (weight: <b>10.0</b>) and <b>1729</b> (weight: <b>100.0</b>). One notices that with a weight
+of <b>10</b>, the runtime is significantly smaller and the path more expensive (as expected), however if we further increase the weight, the runtime gets longer again and the path much more expensive:
 
 <img src="https://media.giphy.com/media/NTKVNjsTskTEhf7KjF/giphy.gif" width = 400/> <img src="https://media.giphy.com/media/8e1yMiT0ibGC9iU45t/giphy.gif" width = 400/> 
 <img src="https://media.giphy.com/media/tywtvzro0fwiq9bweR/giphy.gif" width = 400/>
