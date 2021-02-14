@@ -5,7 +5,8 @@ This is my Python implementation of the <i><b>A* pathfinding algorithm</b></i>. 
 
 # <b>How to use: </b>
 
-<b>Download the latest release</b> and follow the instructions <b>or download the source code</b> and run the <i>Main.py</i> from an IDE 
+<b>Download the latest release</b> and follow the install instructions <b>or download the source code</b> and run <i>Main.py</i> from an IDE 
+
 - The red/green squares represent the starting/goal node respectively.
 - You can move the starting/goal node by clicking on it and then clicking on some desired square (where you want to move the node to).
 - You can use the mouse cursor to draw obstacles onto the grid (in yellow).
