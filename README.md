@@ -3,7 +3,7 @@
 This is my Python implementation of the <i><b>A* pathfinding algorithm</b></i>. The application is written in Python using <i>Kivy</i> as well as 
 <i>PIL</i> (Python Imaging Library) for the GUI. 
 
-# <b>How to use: </b>
+# <b>Instructions: </b>
 
 <b>Download the latest release</b> and follow the install instructions <b>or download the source code</b> and run <i>Main.py</i> from an IDE 
 
