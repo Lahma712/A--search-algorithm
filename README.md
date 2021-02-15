@@ -128,7 +128,7 @@ In this case, the optimal weight would be <b>10</b> as it balances <i>speed</i> 
 
 # <b>Dependencies: </b>
 
-- Python 3.8
+- Python 3.x
 
 - Kivy 2.0.0
 
